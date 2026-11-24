@@ -113,22 +113,28 @@
     ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
   </style>
 </head>
-<body class="min-h-screen flex">
+<body class="min-h-screen flex overflow-x-hidden">
 
-  <!-- 左側精品導覽欄 -->
-  <aside class="w-64 shrink-0 bg-white border-r border-slate-200/80 flex flex-col justify-between sticky top-0 h-screen select-none">
+  <!-- 手機版側邊抽屜背景遮罩 -->
+  <div id="mobileMenuBackdrop" onclick="closeMobileMenu()" class="hidden fixed inset-0 z-30 bg-slate-900/45 backdrop-blur-xs lg:hidden"></div>
+
+  <!-- 左側精品導覽欄（桌機常駐 / 手機滑出抽屜） -->
+  <aside id="appSidebar" class="fixed inset-y-0 left-0 z-40 w-64 shrink-0 bg-white border-r border-slate-200/80 flex flex-col justify-between h-screen select-none transform -translate-x-full lg:translate-x-0 lg:sticky lg:top-0 transition-transform duration-200 overflow-y-auto">
     <div>
       <!-- Brand Header -->
-      <div class="px-5 py-5 border-b border-slate-100 flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-600/20">
-          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-          </svg>
+      <div class="px-5 py-5 border-b border-slate-100 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-600/20">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+            </svg>
+          </div>
+          <div>
+            <div class="text-[15px] font-bold tracking-tight text-slate-900 leading-tight">FinPulse 戰情室</div>
+            <div class="text-[11px] text-slate-400 font-medium mt-0.5">金融證券聲量與廣告監測</div>
+          </div>
         </div>
-        <div>
-          <div class="text-[15px] font-bold tracking-tight text-slate-900 leading-tight">FinPulse 戰情室</div>
-          <div class="text-[11px] text-slate-400 font-medium mt-0.5">金融證券聲量與廣告監測</div>
-        </div>
+        <button onclick="closeMobileMenu()" aria-label="關閉選單" class="lg:hidden w-8 h-8 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 flex items-center justify-center text-lg">&times;</button>
       </div>
 
       <!-- 主導覽選單 -->
@@ -223,44 +229,54 @@
 
   <!-- 右側主畫布 -->
   <div class="flex-1 min-w-0 flex flex-col">
-    <!-- 頂部極簡操控列 -->
-    <header class="sticky top-0 z-20 bg-white/85 backdrop-blur-md border-b border-slate-200/80">
-      <div class="max-w-[1360px] mx-auto px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center gap-2.5">
-          <!-- 往返頁控制按鈕（站內歷史往返，不跳出儀表板） -->
-          <div class="flex items-center bg-slate-100/90 border border-slate-200/80 rounded-xl p-0.5">
-            <button id="btnNavBack" onclick="navBack()" disabled title="回到上一頁" class="px-2 py-1 rounded-lg text-slate-600 hover:bg-white hover:shadow-sm disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:shadow-none transition flex items-center gap-1 text-xs font-medium">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
-              <span>返回</span>
+    <!-- 頂部極簡操控列（桌機單排 / 手機精緻折行） -->
+    <header class="sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b border-slate-200/80">
+      <div class="max-w-[1360px] mx-auto px-3.5 sm:px-6 py-2.5 sm:py-3.5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2.5 sm:gap-3">
+        <div class="flex items-center justify-between lg:justify-start gap-2 min-w-0">
+          <div class="flex items-center gap-2 min-w-0">
+            <!-- 手機版漢堡選單鈕 -->
+            <button onclick="openMobileMenu()" aria-label="開啟選單" class="lg:hidden w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
             </button>
-            <button id="btnNavForward" onclick="navForward()" disabled title="前往下一頁" class="px-1.5 py-1 rounded-lg text-slate-600 hover:bg-white hover:shadow-sm disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:shadow-none transition">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
-            </button>
+            <!-- 往返頁控制按鈕（站內歷史往返，不跳出儀表板） -->
+            <div class="flex items-center bg-slate-100/90 border border-slate-200/80 rounded-xl p-0.5 shrink-0">
+              <button id="btnNavBack" onclick="navBack()" disabled title="回到上一頁" class="px-2 py-1 rounded-lg text-slate-600 hover:bg-white hover:shadow-sm disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:shadow-none transition flex items-center gap-1 text-xs font-medium">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
+                <span class="hidden sm:inline">返回</span>
+              </button>
+              <button id="btnNavForward" onclick="navForward()" disabled title="前往下一頁" class="px-1.5 py-1 rounded-lg text-slate-600 hover:bg-white hover:shadow-sm disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:shadow-none transition">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+              </button>
+            </div>
+            <div class="flex items-center gap-1.5 min-w-0">
+              <button id="breadcrumbHome" onclick="switchTab('overview')" class="hidden sm:inline text-xs text-slate-400 hover:text-blue-600 font-medium transition shrink-0">戰情總覽 /</button>
+              <h1 id="pageTitle" class="text-base sm:text-lg font-bold text-slate-900 tracking-tight truncate">戰情總覽矩陣</h1>
+            </div>
           </div>
-          <div class="flex items-center gap-2">
-            <button id="breadcrumbHome" onclick="switchTab('overview')" class="hidden text-xs text-slate-400 hover:text-blue-600 font-medium transition">戰情總覽 /</button>
-            <h1 id="pageTitle" class="text-lg font-bold text-slate-900 tracking-tight">戰情總覽矩陣</h1>
-          </div>
-          <span class="hidden lg:inline-flex items-center gap-1.5 text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full font-medium">
+          <span class="hidden lg:inline-flex items-center gap-1.5 text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full font-medium shrink-0">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 本機免密碼直連
           </span>
         </div>
 
         <div class="flex flex-wrap items-center gap-2 text-xs">
-          <!-- 日期區間膠囊 -->
-          <div class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 shadow-sm">
-            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>
-            <input type="date" id="dateFrom" onchange="loadDashboard()" class="bg-transparent text-slate-700 font-medium outline-none num" />
-            <span class="text-slate-300">→</span>
-            <input type="date" id="dateTo" onchange="loadDashboard()" class="bg-transparent text-slate-700 font-medium outline-none num" />
-            <div class="h-3.5 w-px bg-slate-200 mx-1"></div>
-            <button onclick="setQuickRange(7)" class="px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">7天</button>
-            <button onclick="setQuickRange(30)" class="px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">30天</button>
-            <button onclick="setQuickRange(180)" class="px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">半年</button>
-            <button onclick="setQuickRange(3650)" class="px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">全部</button>
+          <!-- 日期區間膠囊（手機版自動收斂寬度防溢出） -->
+          <div class="flex flex-wrap items-center gap-1 sm:gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2.5 sm:px-3 py-1.5 shadow-sm w-full sm:w-auto justify-between sm:justify-start">
+            <div class="flex items-center gap-1">
+              <svg class="w-3.5 h-3.5 text-slate-400 hidden sm:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>
+              <input type="date" id="dateFrom" onchange="loadDashboard()" class="bg-transparent text-slate-700 font-medium outline-none num text-[11px] sm:text-xs w-[104px] sm:w-auto" />
+              <span class="text-slate-300">→</span>
+              <input type="date" id="dateTo" onchange="loadDashboard()" class="bg-transparent text-slate-700 font-medium outline-none num text-[11px] sm:text-xs w-[104px] sm:w-auto" />
+            </div>
+            <div class="hidden sm:block h-3.5 w-px bg-slate-200 mx-0.5"></div>
+            <div class="flex items-center gap-0.5">
+              <button onclick="setQuickRange(7)" class="px-1.5 sm:px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">7天</button>
+              <button onclick="setQuickRange(30)" class="px-1.5 sm:px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">30天</button>
+              <button onclick="setQuickRange(180)" class="px-1.5 sm:px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">半年</button>
+              <button onclick="setQuickRange(3650)" class="px-1.5 sm:px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">全部</button>
+            </div>
           </div>
 
-          <select id="brandFilter" onchange="loadDashboard()" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-700 font-medium shadow-sm outline-none focus:border-blue-500">
+          <select id="brandFilter" onchange="loadDashboard()" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-700 font-medium shadow-sm outline-none focus:border-blue-500 flex-1 sm:flex-none min-w-[140px]">
             <option value="ALL">全部追蹤品牌</option>
           </select>
 
@@ -281,7 +297,7 @@
     </header>
 
     <!-- 訊息與示範提示列 -->
-    <div class="max-w-[1360px] w-full mx-auto px-6 pt-4 space-y-2.5">
+    <div class="max-w-[1360px] w-full mx-auto px-3.5 sm:px-6 pt-3 sm:pt-4 space-y-2.5">
       <div id="toast" class="hidden px-4 py-3 rounded-xl text-sm font-medium border shadow-sm"></div>
       <div id="demoBanner" class="hidden px-4 py-3 rounded-2xl bg-amber-50/90 border border-amber-200 text-amber-900 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
@@ -295,8 +311,8 @@
       </div>
     </div>
 
-    <!-- 主內容區 -->
-    <main class="max-w-[1360px] w-full mx-auto px-6 py-5 space-y-6">
+    <!-- 主內容區（手機版預留底部導覽列安全距離） -->
+    <main class="max-w-[1360px] w-full mx-auto px-3.5 sm:px-6 py-4 sm:py-5 pb-24 lg:pb-6 space-y-5 sm:space-y-6">
 
       <!-- ==================== 分頁 1：戰情總覽矩陣 ==================== -->
       <section id="tab-overview" class="space-y-6">
@@ -310,8 +326,8 @@
           <button onclick="switchTab('settings')" class="text-xs text-blue-600 hover:underline font-medium">切換自家品牌 →</button>
         </div>
 
-        <!-- KPI Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- KPI Cards（手機版 2x2 精簡排布，桌機 4 欄） -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <div class="surface surface-hover p-5">
             <div class="flex items-center justify-between">
               <span class="text-xs font-semibold text-slate-500">品牌官方發文（自家）</span>
@@ -578,7 +594,7 @@
               <option value="Threads">Threads</option>
               <option value="YouTube">YouTube</option>
             </select>
-            <input id="postKeywordFilter" oninput="renderPosts()" placeholder="搜尋貼文關鍵字、品牌或活動訴求..." class="input-clean w-64" />
+            <input id="postKeywordFilter" oninput="renderPosts()" placeholder="搜尋貼文關鍵字、品牌或活動訴求..." class="input-clean w-full sm:w-64" />
           </div>
           <span id="postCountLabel" class="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">共 0 篇</span>
         </div>
@@ -619,7 +635,7 @@
               <option value="YouTube">YouTube</option>
               <option value="Instagram">Instagram</option>
             </select>
-            <input id="mentionSearch" oninput="renderMentions()" placeholder="搜尋網友討論關鍵字或議題..." class="input-clean w-60" />
+            <input id="mentionSearch" oninput="renderMentions()" placeholder="搜尋網友討論關鍵字或議題..." class="input-clean w-full sm:w-60" />
             <label class="inline-flex items-center gap-1.5 text-xs text-slate-600 bg-slate-50 border border-slate-200 px-3 py-2 rounded-xl cursor-pointer select-none font-medium">
               <input type="checkbox" id="mentionIncludeAllStore" checked onchange="renderMentions()" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
               <span>含 APP 商店評論（App Store / Google Play）</span>
@@ -755,6 +771,30 @@
         </div>
       </section>
     </main>
+
+    <!-- 手機版原生風格底部導覽列（僅於小螢幕顯示，單手即可秒切五大戰情頁） -->
+    <nav id="mobileBottomNav" class="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200/90 shadow-[0_-4px_16px_-6px_rgba(15,23,42,0.12)] grid grid-cols-5 px-1 py-1.5 text-[10.5px] font-semibold select-none">
+      <button onclick="switchTab('overview')" data-mtab="overview" class="mob-nav-btn flex flex-col items-center justify-center gap-0.5 py-1 rounded-xl text-blue-600 bg-blue-50/80">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" /></svg>
+        <span>總覽</span>
+      </button>
+      <button onclick="switchTab('compare')" data-mtab="compare" class="mob-nav-btn flex flex-col items-center justify-center gap-0.5 py-1 rounded-xl text-slate-500">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>
+        <span>競品PK</span>
+      </button>
+      <button onclick="switchTab('posts')" data-mtab="posts" class="mob-nav-btn flex flex-col items-center justify-center gap-0.5 py-1 rounded-xl text-slate-500">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5" /></svg>
+        <span>官方操作</span>
+      </button>
+      <button onclick="switchTab('ads')" data-mtab="ads" class="mob-nav-btn flex flex-col items-center justify-center gap-0.5 py-1 rounded-xl text-slate-500">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3" /></svg>
+        <span>廣告牆</span>
+      </button>
+      <button onclick="switchTab('mentions')" data-mtab="mentions" class="mob-nav-btn flex flex-col items-center justify-center gap-0.5 py-1 rounded-xl text-slate-500">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" /></svg>
+        <span>口碑評論</span>
+      </button>
+    </nav>
   </div>
 
   <!-- 執行外部抓取 Modal -->
@@ -1104,6 +1144,7 @@
     // 隱藏所有管理／寫入按鈕與個人設定分頁
     const hideSelectors = [
       '.nav-item[data-tab="settings"]',
+      '#sidebarSheetLink',
       'button[onclick="openCollectModal()"]',
       'button[onclick="pushToSheets()"]',
       'button[onclick="downloadExcel()"]',
@@ -1287,12 +1328,31 @@
       document.getElementById('breadcrumbHome').classList.toggle('hidden', activeTab === 'overview');
     }
 
+    function openMobileMenu() {
+      const sb = document.getElementById('appSidebar');
+      const bd = document.getElementById('mobileMenuBackdrop');
+      if (sb) sb.classList.remove('-translate-x-full');
+      if (bd) bd.classList.remove('hidden');
+    }
+
+    function closeMobileMenu() {
+      const sb = document.getElementById('appSidebar');
+      const bd = document.getElementById('mobileMenuBackdrop');
+      if (sb) sb.classList.add('-translate-x-full');
+      if (bd) bd.classList.add('hidden');
+    }
+
     function applyTabView(name, brandId = null) {
+      closeMobileMenu();
       ['overview', 'compare', 'brand-detail', 'posts', 'ads', 'mentions', 'settings'].forEach(t => {
         document.getElementById('tab-' + t).classList.toggle('hidden', t !== name);
       });
       document.querySelectorAll('.nav-item[data-tab]').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === name);
+      });
+      document.querySelectorAll('.mob-nav-btn[data-mtab]').forEach(btn => {
+        const active = btn.dataset.mtab === name;
+        btn.className = `mob-nav-btn flex flex-col items-center justify-center gap-0.5 py-1 rounded-xl transition ${active ? 'text-blue-600 bg-blue-50/80' : 'text-slate-500'}`;
       });
       if (name === 'brand-detail' && brandId) {
         if (STATE.detailBrandId !== brandId) {
