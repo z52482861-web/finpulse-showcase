@@ -1,0 +1,2594 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinPulse｜金融證券品牌操作與聲量戰情室</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Noto Sans TC"', '"Microsoft JhengHei"', 'sans-serif'],
+          },
+          colors: {
+            canvas: '#F5F7FB',
+            ink: '#0F172A',
+            muted: '#64748B',
+            brand: { 50: '#EFF6FF', 100: '#DBEAFE', 500: '#3B82F6', 600: '#2563EB', 700: '#1D4ED8' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      background: #F5F7FB;
+      color: #0F172A;
+      font-family: "Plus Jakarta Sans", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .num { font-variant-numeric: tabular-nums; }
+    .surface {
+      background: #FFFFFF;
+      border: 1px solid #E6EBF3;
+      border-radius: 16px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03), 0 8px 24px -12px rgba(15, 23, 42, 0.06);
+      transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
+    .surface-hover:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05), 0 14px 32px -12px rgba(37, 99, 235, 0.10);
+      transform: translateY(-1px);
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #475569;
+      transition: all 0.16s ease;
+      position: relative;
+    }
+    .nav-item:hover { background: #F1F5F9; color: #0F172A; }
+    .nav-item.active {
+      background: #EFF6FF;
+      color: #1D4ED8;
+      font-weight: 600;
+    }
+    .nav-item.active::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 8px;
+      width: 3.5px;
+      border-radius: 0 4px 4px 0;
+      background: #2563EB;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      white-space: nowrap;
+    }
+    .input-clean {
+      background: #FFFFFF;
+      border: 1px solid #DCE3EE;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      color: #0F172A;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .input-clean:focus {
+      border-color: #3B82F6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
+    }
+    .ai-banner {
+      background: linear-gradient(135deg, #FFFFFF 0%, #F5F8FF 55%, #EEF2FF 100%);
+      border: 1px solid #DBE6FE;
+      border-radius: 18px;
+      box-shadow: 0 4px 20px -8px rgba(37, 99, 235, 0.12);
+    }
+    ::-webkit-scrollbar { width: 7px; height: 7px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+  </style>
+</head>
+<body class="min-h-screen flex">
+
+  <!-- 左側精品導覽欄 -->
+  <aside class="w-64 shrink-0 bg-white border-r border-slate-200/80 flex flex-col justify-between sticky top-0 h-screen select-none">
+    <div>
+      <!-- Brand Header -->
+      <div class="px-5 py-5 border-b border-slate-100 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-600/20">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+          </svg>
+        </div>
+        <div>
+          <div class="text-[15px] font-bold tracking-tight text-slate-900 leading-tight">FinPulse 戰情室</div>
+          <div class="text-[11px] text-slate-400 font-medium mt-0.5">金融證券聲量與廣告監測</div>
+        </div>
+      </div>
+
+      <!-- 主導覽選單 -->
+      <div class="px-3.5 py-4 space-y-1">
+        <div class="px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400">監測分析</div>
+
+        <button onclick="switchTab('overview')" data-tab="overview" class="nav-item active">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" /></svg>
+          <span>戰情總覽矩陣</span>
+        </button>
+
+        <button onclick="switchTab('compare')" data-tab="compare" class="nav-item">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>
+          <span>自家 vs. 競品比較</span>
+        </button>
+
+        <button onclick="switchTab('posts')" data-tab="posts" class="nav-item">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5" /></svg>
+          <span>品牌官方操作</span>
+        </button>
+
+        <button onclick="switchTab('ads')" data-tab="ads" class="nav-item">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46" /></svg>
+          <span>金融廣告牆</span>
+          <span id="navRiskDot" class="hidden ml-auto w-2 h-2 rounded-full bg-rose-500"></span>
+        </button>
+
+        <button onclick="switchTab('mentions')" data-tab="mentions" class="nav-item">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" /></svg>
+          <span>網友討論與口碑</span>
+        </button>
+
+        <div class="px-3 pt-4 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400">資料與系統</div>
+
+        <button onclick="switchTab('settings')" data-tab="settings" class="nav-item">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
+          <span>名單同步與設定</span>
+        </button>
+
+        <a id="sidebarSheetLink" href="https://docs.google.com/spreadsheets/d/1i3gWTWkmejekStaVMhDA6fKt_Lf7e08nJntda1MKuUk/edit" target="_blank" class="nav-item text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25" /></svg>
+          <span>開啟 Google 試算表</span>
+          <svg class="w-3.5 h-3.5 ml-auto opacity-60" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- 側邊欄底部：三合一免費額度護盾卡片（Apify / YouTube / Gemini） -->
+    <div class="p-3.5 border-t border-slate-100">
+      <div class="rounded-2xl bg-slate-50 border border-slate-200/80 p-3.5 space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold text-slate-600">額度監控中心</span>
+          <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full">個人隔離</span>
+        </div>
+
+        <!-- 1. Apify 月預算煞車 -->
+        <div class="space-y-1">
+          <div class="flex items-baseline justify-between text-[11px]">
+            <span class="font-medium text-slate-500">Apify (月)</span>
+            <span class="num"><strong id="budgetText" class="text-slate-800">$0.00 / $4.50</strong> <span id="budgetPctText" class="text-emerald-600 font-semibold ml-0.5">0%</span></span>
+          </div>
+          <div class="w-full h-1.5 bg-slate-200/80 rounded-full overflow-hidden">
+            <div id="budgetBar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-300" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- 2. YouTube 日免費點數 -->
+        <div class="space-y-1">
+          <div class="flex items-baseline justify-between text-[11px]">
+            <span class="font-medium text-slate-500">YouTube (日)</span>
+            <span class="num"><strong id="ytQuotaText" class="text-slate-800">0 / 10,000</strong> <span id="ytQuotaPct" class="text-blue-600 font-semibold ml-0.5">0%</span></span>
+          </div>
+          <div class="w-full h-1.5 bg-slate-200/80 rounded-full overflow-hidden">
+            <div id="ytQuotaBar" class="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full transition-all duration-300" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- 3. Gemini 日免費請求數 -->
+        <div class="space-y-1">
+          <div class="flex items-baseline justify-between text-[11px]">
+            <span class="font-medium text-slate-500">Gemini (日)</span>
+            <span class="num"><strong id="gmQuotaText" class="text-slate-800">0 / 250 次</strong> <span id="gmQuotaPct" class="text-violet-600 font-semibold ml-0.5">0%</span></span>
+          </div>
+          <div class="w-full h-1.5 bg-slate-200/80 rounded-full overflow-hidden">
+            <div id="gmQuotaBar" class="h-full bg-gradient-to-r from-violet-500 to-indigo-400 rounded-full transition-all duration-300" style="width:0%"></div>
+          </div>
+          <div id="gmTokenText" class="text-[10px] text-slate-400 text-right num">今日累計 0 Tokens（去重不重算）</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 右側主畫布 -->
+  <div class="flex-1 min-w-0 flex flex-col">
+    <!-- 頂部極簡操控列 -->
+    <header class="sticky top-0 z-20 bg-white/85 backdrop-blur-md border-b border-slate-200/80">
+      <div class="max-w-[1360px] mx-auto px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <!-- 往返頁控制按鈕（站內歷史往返，不跳出儀表板） -->
+          <div class="flex items-center bg-slate-100/90 border border-slate-200/80 rounded-xl p-0.5">
+            <button id="btnNavBack" onclick="navBack()" disabled title="回到上一頁" class="px-2 py-1 rounded-lg text-slate-600 hover:bg-white hover:shadow-sm disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:shadow-none transition flex items-center gap-1 text-xs font-medium">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
+              <span>返回</span>
+            </button>
+            <button id="btnNavForward" onclick="navForward()" disabled title="前往下一頁" class="px-1.5 py-1 rounded-lg text-slate-600 hover:bg-white hover:shadow-sm disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:shadow-none transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+            </button>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="breadcrumbHome" onclick="switchTab('overview')" class="hidden text-xs text-slate-400 hover:text-blue-600 font-medium transition">戰情總覽 /</button>
+            <h1 id="pageTitle" class="text-lg font-bold text-slate-900 tracking-tight">戰情總覽矩陣</h1>
+          </div>
+          <span class="hidden lg:inline-flex items-center gap-1.5 text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full font-medium">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 本機免密碼直連
+          </span>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+          <!-- 日期區間膠囊 -->
+          <div class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 shadow-sm">
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>
+            <input type="date" id="dateFrom" onchange="loadDashboard()" class="bg-transparent text-slate-700 font-medium outline-none num" />
+            <span class="text-slate-300">→</span>
+            <input type="date" id="dateTo" onchange="loadDashboard()" class="bg-transparent text-slate-700 font-medium outline-none num" />
+            <div class="h-3.5 w-px bg-slate-200 mx-1"></div>
+            <button onclick="setQuickRange(7)" class="px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">7天</button>
+            <button onclick="setQuickRange(30)" class="px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">30天</button>
+            <button onclick="setQuickRange(180)" class="px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">半年</button>
+            <button onclick="setQuickRange(3650)" class="px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">全部</button>
+          </div>
+
+          <select id="brandFilter" onchange="loadDashboard()" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-700 font-medium shadow-sm outline-none focus:border-blue-500">
+            <option value="ALL">全部追蹤品牌</option>
+          </select>
+
+          <button onclick="downloadExcel()" class="px-3 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-medium shadow-sm transition">
+            匯出 Excel
+          </button>
+
+          <button onclick="pushToSheets()" class="px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-semibold transition">
+            寫回 Sheets
+          </button>
+
+          <button onclick="openCollectModal()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm shadow-blue-600/25 flex items-center gap-1.5 transition">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>
+            <span>執行外部抓取</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 訊息與示範提示列 -->
+    <div class="max-w-[1360px] w-full mx-auto px-6 pt-4 space-y-2.5">
+      <div id="toast" class="hidden px-4 py-3 rounded-xl text-sm font-medium border shadow-sm"></div>
+      <div id="demoBanner" class="hidden px-4 py-3 rounded-2xl bg-amber-50/90 border border-amber-200 text-amber-900 text-xs flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+          <span>目前顯示<strong>示範券商展示數據</strong>供介面預覽。於 Google Sheets 填寫真實名單並同步後，可隨時清空示範數據。</span>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="switchTab('settings')" class="px-3 py-1 rounded-lg bg-amber-500 hover:bg-amber-600 text-white font-semibold transition">同步我的名單</button>
+          <button onclick="clearDemo()" class="px-3 py-1 rounded-lg bg-white hover:bg-amber-100 text-amber-800 border border-amber-300 font-medium transition">清空示範數據</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 主內容區 -->
+    <main class="max-w-[1360px] w-full mx-auto px-6 py-5 space-y-6">
+
+      <!-- ==================== 分頁 1：戰情總覽矩陣 ==================== -->
+      <section id="tab-overview" class="space-y-6">
+        <!-- KPI 視角標示條（明確區隔自家品牌 vs 競品） -->
+        <div class="flex flex-wrap items-center justify-between gap-2 -mb-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <span id="kpiModeBadge" class="pill bg-blue-600 text-white shadow-sm">★ 自家品牌核心戰情</span>
+            <span id="kpiFocusName" class="text-sm font-bold text-slate-900">—</span>
+            <span id="kpiFocusHint" class="text-xs text-slate-400">下方 4 張指標卡僅統計此單一品牌自身數據，並與競品平均自動對照</span>
+          </div>
+          <button onclick="switchTab('settings')" class="text-xs text-blue-600 hover:underline font-medium">切換自家品牌 →</button>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="surface surface-hover p-5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-500">品牌官方發文（自家）</span>
+              <span class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
+              </span>
+            </div>
+            <div id="kpiPosts" class="text-3xl font-extrabold text-slate-900 mt-2 num">0</div>
+            <div id="kpiPostsBench" class="text-xs text-slate-500 mt-1.5 num">競品平均 0 篇</div>
+          </div>
+
+          <div class="surface surface-hover p-5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-500">在投金融廣告（自家）</span>
+              <span class="w-9 h-9 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3" /></svg>
+              </span>
+            </div>
+            <div id="kpiAds" class="text-3xl font-extrabold text-slate-900 mt-2 num">0</div>
+            <div id="kpiAdsDiff" class="text-xs text-slate-500 mt-1.5 num">新上 +0 ／ 競品平均 0 則</div>
+          </div>
+
+          <div class="surface surface-hover p-5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-500">官方總互動（自家）</span>
+              <span class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" /></svg>
+              </span>
+            </div>
+            <div id="kpiEng" class="text-3xl font-extrabold text-slate-900 mt-2 num">0</div>
+            <div id="kpiViews" class="text-xs text-emerald-600 font-medium mt-1.5 num">同業排名 #1 ｜ 觀看 0</div>
+          </div>
+
+          <div class="surface surface-hover p-5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-500">網友討論篇數（自家）</span>
+              <span class="w-9 h-9 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" /></svg>
+              </span>
+            </div>
+            <div id="kpiMentions" class="text-3xl font-extrabold text-slate-900 mt-2 num">0</div>
+            <div id="kpiSent" class="text-xs text-slate-500 mt-1.5 num">SOV 0% ｜ 正 0% / 負 0%</div>
+          </div>
+        </div>
+
+        <!-- Gemini AI 戰報卡片 -->
+        <div class="ai-banner p-5">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+            <div class="flex items-center gap-2.5">
+              <span class="pill bg-blue-600 text-white shadow-sm">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/></svg>
+                Gemini AI 戰報
+              </span>
+              <h2 class="text-sm font-bold text-slate-900">本期競品操作與輿情重點摘要</h2>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <button id="btnQuickDigest" onclick="runAiAnalyze(true)" class="text-xs px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm transition flex items-center gap-1.5">
+                <span>⚡ 快速更新本期戰報</span>
+              </button>
+              <button id="btnRunAiAnalyze" onclick="runAiAnalyze(false)" class="text-xs px-3.5 py-1.5 rounded-xl bg-white hover:bg-blue-50 text-blue-700 border border-blue-200 font-semibold shadow-sm transition flex items-center gap-1.5">
+                <span>分析未標註新資料並更新戰報</span>
+              </button>
+            </div>
+          </div>
+          <div id="aiDigestBox" class="text-[13.5px] text-slate-600 leading-relaxed">
+            尚未生成本期 Gemini 戰報。填入個人 Gemini API Key 後點擊右上角按鈕，系統會自動針對尚未分析的貼文、廣告與網友討論進行批次標註（已分析過的舊資料不重複消耗 Token）。
+          </div>
+        </div>
+
+        <!-- 每日品牌戰情矩陣表 -->
+        <div class="surface overflow-hidden">
+          <div class="px-6 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-[15px] font-bold text-slate-900">各品牌操作狀況、APP 排名與討論熱度矩陣</h2>
+              <p class="text-xs text-slate-400 mt-0.5">點擊列表中的<strong class="text-blue-600">任一品牌</strong>，即可進入該品牌 360° 全景詳情頁（完整列出社群、廣告、口碑與 APP 商店排名）</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-1.5 text-xs">
+              <button onclick="setMatrixCat('ALL')" data-mcat="ALL" class="mcat-btn px-3 py-1 rounded-full bg-slate-900 text-white font-semibold transition">全部</button>
+              <button onclick="setMatrixCat('看盤軟體')" data-mcat="看盤軟體" class="mcat-btn px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 font-semibold transition">看盤軟體</button>
+              <button onclick="setMatrixCat('財經資訊')" data-mcat="財經資訊" class="mcat-btn px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-semibold transition">財經資訊</button>
+              <button onclick="setMatrixCat('券商API')" data-mcat="券商API" class="mcat-btn px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold transition">券商API</button>
+              <button onclick="switchTab('compare')" class="ml-1 px-3 py-1 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-semibold transition">競品 PK →</button>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-[13px]">
+              <thead class="bg-slate-50/90 text-slate-500 text-xs font-semibold border-b border-slate-200/70">
+                <tr>
+                  <th class="px-5 py-3.5">品牌名稱（點擊看詳情）</th>
+                  <th class="px-2.5 py-3.5 text-center">類別</th>
+                  <th class="px-2.5 py-3.5 text-center">APP 財經榜 (iOS / Android)</th>
+                  <th class="px-2.5 py-3.5 text-right">官方發文</th>
+                  <th class="px-2.5 py-3.5 text-right">在投廣告</th>
+                  <th class="px-2.5 py-3.5 text-right">官方互動</th>
+                  <th class="px-2.5 py-3.5 text-right">網友討論</th>
+                  <th class="px-3 py-3.5 text-center">正負評分布</th>
+                  <th class="px-3 py-3.5 text-center">反詐燈號</th>
+                </tr>
+              </thead>
+              <tbody id="matrixBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 圖表區 -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div class="surface p-5 lg:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 id="trendChartTitle" class="text-[15px] font-bold text-slate-900">自家品牌 vs. 競品平均 每日總聲量趨勢</h3>
+                <p class="text-xs text-slate-400 mt-0.5">實線為聚焦品牌單日聲量（官方發文＋網友討論），虛線為同業競品平均</p>
+              </div>
+            </div>
+            <div class="h-64"><canvas id="trendChart"></canvas></div>
+          </div>
+          <div class="surface p-5">
+            <div class="mb-4">
+              <h3 id="platformChartTitle" class="text-[15px] font-bold text-slate-900">自家品牌 四大平台聲量佔比</h3>
+              <p class="text-xs text-slate-400 mt-0.5">僅統計聚焦品牌，不與競品混算</p>
+            </div>
+            <div class="h-64"><canvas id="platformChart"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 新分頁：自家 vs. 競品自由比較 ==================== -->
+      <section id="tab-compare" class="hidden space-y-5">
+        <!-- 競品自由勾選列 -->
+        <div class="surface p-5 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">選擇要與自家品牌比較的競品</h2>
+              <p class="text-xs text-slate-500 mt-0.5">系統自動以「★ 自家品牌」為基準，勾選任意一家或多家競品即可即時對照社群、廣告、口碑與 APP 雙平台商店排名</p>
+            </div>
+            <div class="flex flex-wrap gap-1.5 text-xs">
+              <button onclick="selectCompareByCategory('看盤軟體')" class="px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-semibold">比較：看盤軟體</button>
+              <button onclick="selectCompareByCategory('財經資訊')" class="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 font-semibold">比較：財經資訊</button>
+              <button onclick="selectCompareByCategory('券商API')" class="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-semibold">比較：券商API</button>
+              <button onclick="selectAllCompetitors(false)" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium">清空勾選</button>
+            </div>
+          </div>
+          <div id="compareSelectorBar" class="flex flex-wrap items-center gap-2 pt-1"></div>
+        </div>
+
+        <!-- 比較圖表區（雷達圖 ＋ 分組長條圖） -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <div class="surface p-5">
+            <h3 class="text-[15px] font-bold text-slate-900 mb-1">五維戰力雷達圖</h3>
+            <p class="text-xs text-slate-400 mb-3">官方發文、在投廣告、互動熱度、正面口碑、APP 雙平台財經榜表現（分數越高越強）</p>
+            <div class="h-72"><canvas id="compareRadarChart"></canvas></div>
+          </div>
+          <div class="surface p-5">
+            <h3 class="text-[15px] font-bold text-slate-900 mb-1">核心聲量與操作指標分組比較</h3>
+            <p class="text-xs text-slate-400 mb-3">官方發文數、在投廣告數、網友討論篇數並排對決</p>
+            <div class="h-72"><canvas id="compareBarChart"></canvas></div>
+          </div>
+        </div>
+
+        <!-- 完整橫向 PK 矩陣表 -->
+        <div class="surface overflow-hidden">
+          <div class="px-6 py-4 border-b border-slate-100">
+            <h3 class="text-[15px] font-bold text-slate-900">完整數據橫向 PK 表（含 APP 雙平台台灣財經榜排名）</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table id="compareTable" class="w-full text-left text-xs"></table>
+          </div>
+        </div>
+
+        <!-- 近期主打活動與廣告策略並排對照 -->
+        <div class="space-y-2.5">
+          <h3 class="text-[15px] font-bold text-slate-900 px-1">近期主打行銷與廣告訴求並排對照</h3>
+          <div id="compareStrategyGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+      </section>
+
+      <!-- ==================== 新分頁：單一品牌 360° 全景詳情頁 ==================== -->
+      <section id="tab-brand-detail" class="hidden space-y-5">
+        <!-- 頂部品牌總覽與 APP 雙平台排名卡片 -->
+        <div id="bdHeaderCard" class="surface p-6 space-y-5"></div>
+
+        <!-- APP 雙平台商店排名歷史趨勢圖 -->
+        <div class="surface p-5">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div>
+              <h3 class="text-[15px] font-bold text-slate-900">APP 雙平台台灣財經榜排名走勢（名次越上方越高）</h3>
+              <p class="text-xs text-slate-400 mt-0.5">同步追蹤 Apple App Store（財經免費榜）與 Google Play（財經榜）每日排名變化</p>
+            </div>
+          </div>
+          <div class="h-56"><canvas id="bdAppRankChart"></canvas></div>
+        </div>
+
+        <!-- 三大區塊自由勾選列（預設全部，可自由勾選／取消顯示想看的類別） -->
+        <div class="surface p-4 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-bold text-slate-600 mr-1">顯示內容篩選：</span>
+            <button id="bdSecBtnAll" onclick="setBdSectionsAll()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 text-white font-semibold shadow-sm transition">全部</button>
+            <button id="bdSecBtnPosts" onclick="toggleBdSection('posts')" class="px-3.5 py-1.5 rounded-xl border font-semibold transition flex items-center gap-1.5">
+              <span class="bd-chk">✓</span><span>品牌官方社群操作 (<span id="bdCntPosts">0</span>)</span>
+            </button>
+            <button id="bdSecBtnAds" onclick="toggleBdSection('ads')" class="px-3.5 py-1.5 rounded-xl border font-semibold transition flex items-center gap-1.5">
+              <span class="bd-chk">✓</span><span>品牌投放廣告與素材牆 (<span id="bdCntAds">0</span>)</span>
+            </button>
+            <button id="bdSecBtnMentions" onclick="toggleBdSection('mentions')" class="px-3.5 py-1.5 rounded-xl border font-semibold transition flex items-center gap-1.5">
+              <span class="bd-chk">✓</span><span>網友討論與口碑情緒明細 (<span id="bdCntMentions">0</span>)</span>
+            </button>
+          </div>
+          <span class="text-[11px] text-slate-400">可自由複選想檢視的區塊（各區塊內亦可細選平台）</span>
+        </div>
+
+        <div id="bdEmptyNotice" class="hidden surface p-8 text-center text-slate-400 text-sm">
+          目前未勾選任何顯示區塊，請於上方勾選要檢視的類別，或點選 <button onclick="setBdSectionsAll()" class="text-blue-600 font-semibold underline">全部顯示</button>。
+        </div>
+
+        <!-- 1. 該品牌官方社群貼文 -->
+        <div id="bd-sec-posts" class="space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-[15px] font-bold text-slate-900 flex items-center gap-2">
+              <span class="w-2 h-5 rounded-full bg-blue-600"></span> 品牌官方社群操作（FB / IG / Threads / YouTube）
+            </h3>
+            <div id="bdPostsFilterBar" class="flex flex-wrap items-center gap-1.5 text-xs"></div>
+          </div>
+          <div id="bdPostsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- 2. 該品牌金融廣告素材牆 -->
+        <div id="bd-sec-ads" class="space-y-3 pt-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-[15px] font-bold text-slate-900 flex items-center gap-2">
+              <span class="w-2 h-5 rounded-full bg-cyan-500"></span> 品牌投放廣告與素材牆（Meta / Google）
+            </h3>
+            <div id="bdAdsFilterBar" class="flex flex-wrap items-center gap-1.5 text-xs"></div>
+          </div>
+          <div id="bdAdsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- 3. 該品牌網友討論與口碑 -->
+        <div id="bd-sec-mentions" class="space-y-3 pt-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-[15px] font-bold text-slate-900 flex items-center gap-2">
+              <span class="w-2 h-5 rounded-full bg-violet-500"></span> 網友討論與口碑情緒明細
+            </h3>
+            <div class="flex flex-wrap items-center gap-2 text-xs">
+              <div id="bdMentionsFilterBar" class="flex flex-wrap items-center gap-1.5"></div>
+              <select id="bdMentionSentFilter" onchange="STATE.bdMentionSent=this.value;renderBrandDetailSections()" class="input-clean py-1 text-xs">
+                <option value="ALL">全部情緒</option>
+                <option value="正面">正面</option>
+                <option value="中立">中立</option>
+                <option value="負面">負面</option>
+              </select>
+            </div>
+          </div>
+          <div id="bdMentionsList" class="space-y-3"></div>
+        </div>
+      </section>
+
+      <!-- ==================== 分頁 2：品牌官方操作 ==================== -->
+      <section id="tab-posts" class="hidden space-y-4">
+        <div class="surface p-4 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <select id="postPlatformFilter" onchange="renderPosts()" class="input-clean">
+              <option value="ALL">全部平台</option>
+              <option value="Facebook">Facebook</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Threads">Threads</option>
+              <option value="YouTube">YouTube</option>
+            </select>
+            <input id="postKeywordFilter" oninput="renderPosts()" placeholder="搜尋貼文關鍵字、品牌或活動訴求..." class="input-clean w-64" />
+          </div>
+          <span id="postCountLabel" class="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">共 0 篇</span>
+        </div>
+        <div id="postsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </section>
+
+      <!-- ==================== 分頁 3：金融廣告牆 (Ad Spy) ==================== -->
+      <section id="tab-ads" class="hidden space-y-4">
+        <div class="surface p-4 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="setAdFilter('ALL')" data-adfilter="ALL" class="ad-f-btn px-3.5 py-1.5 rounded-xl bg-blue-600 text-white font-semibold">全部廣告</button>
+            <button onclick="setAdFilter('NEW')" data-adfilter="NEW" class="ad-f-btn px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-600 font-medium">今日新上 NEW</button>
+            <button onclick="setAdFilter('LONG')" data-adfilter="LONG" class="ad-f-btn px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-600 font-medium">長跑逾 14 天高成效</button>
+            <button onclick="setAdFilter('STOPPED')" data-adfilter="STOPPED" class="ad-f-btn px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-600 font-medium">已停投 STOPPED</button>
+            <button onclick="setAdFilter('RISK')" data-adfilter="RISK" class="ad-f-btn px-3.5 py-1.5 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 font-semibold">疑似冒名詐騙警示</button>
+          </div>
+          <span id="adCountLabel" class="font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">共 0 則</span>
+        </div>
+        <div id="adsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </section>
+
+      <!-- ==================== 分頁 4：網友討論與正負評 ==================== -->
+      <section id="tab-mentions" class="hidden space-y-4">
+        <div class="surface p-4 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <select id="mentionSentFilter" onchange="renderMentions()" class="input-clean">
+              <option value="ALL">全部情緒</option>
+              <option value="正面">正面評價</option>
+              <option value="中立">中立討論</option>
+              <option value="負面">負面客訴／警示</option>
+            </select>
+            <select id="mentionPlatFilter" onchange="renderMentions()" class="input-clean">
+              <option value="ALL">全部平台（社群＋APP商店）</option>
+              <option value="App Store">App Store 商店評論</option>
+              <option value="Google Play">Google Play 商店評論</option>
+              <option value="Threads">Threads</option>
+              <option value="Facebook">Facebook</option>
+              <option value="YouTube">YouTube</option>
+              <option value="Instagram">Instagram</option>
+            </select>
+            <input id="mentionSearch" oninput="renderMentions()" placeholder="搜尋網友討論關鍵字或議題..." class="input-clean w-60" />
+            <label class="inline-flex items-center gap-1.5 text-xs text-slate-600 bg-slate-50 border border-slate-200 px-3 py-2 rounded-xl cursor-pointer select-none font-medium">
+              <input type="checkbox" id="mentionIncludeAllStore" checked onchange="renderMentions()" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+              <span>含 APP 商店評論（App Store / Google Play）</span>
+            </label>
+          </div>
+          <span id="mentionCountLabel" class="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">共 0 則</span>
+        </div>
+        <div id="mentionsList" class="space-y-3"></div>
+      </section>
+
+      <!-- ==================== 分頁 5：名單同步與金鑰設定 ==================== -->
+      <section id="tab-settings" class="hidden space-y-5">
+        <!-- 卡片 1：Google Sheets 同步 -->
+        <div class="surface p-6 space-y-4">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="pill bg-emerald-50 text-emerald-700 border border-emerald-200">STEP 1</span>
+                <h2 class="text-base font-bold text-slate-900">Google Sheets 品牌名單與每週歷史歸檔</h2>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">已於家用帳號 Google Drive「Work / 專案 / 金融品牌聲量監測儀表板」建好 5 分頁總表，填完清單即可一鍵同步。</p>
+            </div>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <a id="openSheetLink" href="https://docs.google.com/spreadsheets/d/1i3gWTWkmejekStaVMhDA6fKt_Lf7e08nJntda1MKuUk/edit" target="_blank" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-sm transition">
+                開啟 Google 試算表填寫名單
+              </a>
+              <button onclick="importBrandsFromSheets()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm transition">
+                從試算表匯入名單
+              </button>
+              <button onclick="copyBridgeScript()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition">
+                複製 Apps Script 橋接碼
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+            <div>
+              <label class="text-xs font-semibold text-slate-600 block mb-1.5">Google 試算表 ID（已自動預填）</label>
+              <input id="cfgSheetId" class="input-clean w-full font-mono text-xs" />
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-slate-600 block mb-1.5">Apps Script 網頁應用程式網址（免 OAuth 雙向讀寫）</label>
+              <input id="cfgWebhook" placeholder="https://script.google.com/macros/s/....../exec" class="input-clean w-full text-xs" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 卡片 2：個人 API 金鑰與隔離 -->
+        <div class="surface p-6 space-y-4">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="pill bg-blue-50 text-blue-700 border border-blue-200">STEP 2</span>
+                <h2 class="text-base font-bold text-slate-900">個人專用 API 金鑰與預算煞車（與公司 Claude 絕對隔離）</h2>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">僅儲存於本專案目錄 <code class="bg-slate-100 text-blue-700 px-1.5 py-0.5 rounded font-mono">.env</code>（前綴 <code class="bg-slate-100 text-blue-700 px-1.5 py-0.5 rounded font-mono">SL_PERSONAL_*</code>），絕不讀取或影響系統全域環境變數。</p>
+            </div>
+            <button onclick="verifyApify()" class="text-xs px-3.5 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-semibold transition">
+              驗證個人 Apify 帳號身分
+            </button>
+          </div>
+
+          <div id="apifyVerifyBox" class="hidden text-xs p-3.5 rounded-xl border"></div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="text-xs font-semibold text-slate-600 block mb-1.5">個人 Apify API Token（家用信箱免費每月 $5）<span id="statusApify" class="ml-1"></span></label>
+              <input id="cfgApifyToken" type="password" placeholder="apify_api_..." class="input-clean w-full" />
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-slate-600 block mb-1.5">個人 YouTube Data API v3 Key（免費每日 10,000 點）<span id="statusYt" class="ml-1"></span></label>
+              <input id="cfgYtKey" type="password" placeholder="AIza..." class="input-clean w-full" />
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-slate-600 block mb-1.5">個人 Gemini API Key（免費層語意與戰報）<span id="statusGemini" class="ml-1"></span></label>
+              <input id="cfgGeminiKey" type="password" placeholder="AIza..." class="input-clean w-full" />
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-slate-600 block mb-1.5">Apify 月預算硬煞車（美元，預設 4.50 鎖定於免費額度內）</label>
+              <input id="cfgBudgetCap" type="number" step="0.5" min="0" class="input-clean w-full num" />
+            </div>
+          </div>
+
+          <details class="bg-slate-50 border border-slate-200/80 rounded-xl p-4 text-xs">
+            <summary class="cursor-pointer font-semibold text-slate-700">進階：Apify 可插拔 Actor ID 設定（已預填實地驗證過的最佳組合）</summary>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3.5">
+              <div><label class="text-slate-500 block mb-1">IG 官方貼文 Actor</label><input id="cfgActorIg" class="input-clean w-full font-mono text-xs" /></div>
+              <div><label class="text-slate-500 block mb-1">FB 官方粉專 Actor</label><input id="cfgActorFbPosts" class="input-clean w-full font-mono text-xs" /></div>
+              <div><label class="text-slate-500 block mb-1">FB 全站搜尋 Actor</label><input id="cfgActorFbSearch" class="input-clean w-full font-mono text-xs" /></div>
+              <div><label class="text-slate-500 block mb-1">Threads 官方主頁 Actor</label><input id="cfgActorThProfile" class="input-clean w-full font-mono text-xs" /></div>
+              <div><label class="text-slate-500 block mb-1">Threads 網友搜尋 Actor（失敗自動切換備援）</label><input id="cfgActorThSearch" class="input-clean w-full font-mono text-xs" /></div>
+              <div><label class="text-slate-500 block mb-1">Gemini 模型名稱</label><input id="cfgGeminiModel" class="input-clean w-full font-mono text-xs" /></div>
+            </div>
+          </details>
+
+          <div class="flex justify-end pt-1">
+            <button onclick="saveSettings()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm shadow-blue-600/20 transition">
+              儲存所有設定到本地 .env
+            </button>
+          </div>
+        </div>
+
+        <!-- 卡片 3：本地品牌管理 -->
+        <div class="surface p-6 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="pill bg-slate-100 text-slate-700">STEP 3</span>
+                <h2 class="text-base font-bold text-slate-900">目前已載入的追蹤品牌清單</h2>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">可從 Google Sheets 批次匯入，亦可直接在此快速新增或移除品牌。</p>
+            </div>
+            <div class="flex gap-2 text-xs">
+              <button onclick="openAddBrandModal()" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold transition">+ 手動新增品牌</button>
+              <button onclick="clearDemo()" class="px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-semibold transition">清空示範品牌</button>
+            </div>
+          </div>
+          <div class="overflow-x-auto border border-slate-200/80 rounded-xl">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200/80">
+                <tr>
+                  <th class="px-4 py-3">代碼</th>
+                  <th class="px-4 py-3">品牌名稱</th>
+                  <th class="px-3 py-3">層級</th>
+                  <th class="px-3 py-3">搜尋別名</th>
+                  <th class="px-3 py-3">串接平台狀態</th>
+                  <th class="px-4 py-3 text-right">操作</th>
+                </tr>
+              </thead>
+              <tbody id="brandsTableBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 執行外部抓取 Modal -->
+  <div id="collectModal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div>
+          <h3 class="text-base font-bold text-slate-900">執行外部抓取與 AI 分析</h3>
+          <p class="text-xs text-slate-400 mt-0.5">只抓取您勾選的平台，已分析過的貼文絕不重複消耗 Gemini Token</p>
+        </div>
+        <button onclick="closeCollectModal()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 text-xl flex items-center justify-center">&times;</button>
+      </div>
+
+      <div class="text-xs text-slate-600 bg-blue-50/70 px-3.5 py-2.5 rounded-xl border border-blue-100 flex items-center justify-between">
+        <span>本次指定抓取日期區間</span>
+        <strong id="modalDateRange" class="text-blue-700 font-bold num"></strong>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="font-bold text-emerald-700 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 免費引擎（$0，隨時可跑）
+        </div>
+        <div class="space-y-2 pl-1 text-slate-700">
+          <label class="flex items-center gap-2.5 cursor-pointer"><input type="checkbox" id="chkYt" checked class="rounded text-blue-600" /> YouTube Data API v3（官方頻道 1 點法 ＋ 網友討論）</label>
+          <label class="flex items-center gap-2.5 cursor-pointer"><input type="checkbox" id="chkAds" checked class="rounded text-blue-600" /> 本機 Playwright 廣告爬蟲（Meta 廣告檔案庫 ＋ Google 廣告中心）</label>
+          <label class="flex items-center gap-2.5 cursor-pointer"><input type="checkbox" id="chkAppRanks" checked class="rounded text-blue-600" /> APP 雙平台商店監測（iOS / Google Play 台灣財經榜排名、星等與最新用戶評論）</label>
+          <label class="flex items-center gap-2.5 cursor-pointer"><input type="checkbox" id="chkGemini" checked class="rounded text-blue-600" /> Gemini AI 自動分析未標註新資料並產出區間戰報</label>
+        </div>
+
+        <div class="font-bold text-amber-700 flex items-center gap-1.5 pt-2">
+          <span class="w-2 h-2 rounded-full bg-amber-500"></span> Apify 社群互動引擎（使用個人免費每月 $5 額度）
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <label class="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl border border-slate-200 cursor-pointer font-medium text-slate-700"><input type="checkbox" id="chkIg" checked /> Instagram</label>
+          <label class="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl border border-slate-200 cursor-pointer font-medium text-slate-700"><input type="checkbox" id="chkFb" checked /> Facebook</label>
+          <label class="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl border border-slate-200 cursor-pointer font-medium text-slate-700"><input type="checkbox" id="chkTh" checked /> Threads</label>
+        </div>
+        <label class="flex items-center gap-2.5 text-slate-700 cursor-pointer pt-1"><input type="checkbox" id="chkMentions" /> 同步執行 FB／Threads 全站網友關鍵字討論搜尋（建議每週勾一次最省額度）</label>
+        <div class="flex items-center justify-between bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200">
+          <span class="text-slate-600">FB 粉專每次抓最新幾篇（免開 +$2 日期加價）</span>
+          <input type="number" id="inpFbLimit" value="5" min="1" max="30" class="w-16 bg-white border border-slate-300 rounded-lg px-2 py-1 text-center font-semibold num" />
+        </div>
+      </div>
+
+      <div id="collectProgress" class="hidden text-xs p-3.5 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 leading-relaxed"></div>
+
+      <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+        <button onclick="closeCollectModal()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold">取消</button>
+        <button id="btnRunCollect" onclick="runCollection()" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm shadow-blue-600/25">立即開始抓取</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 手動新增品牌 Modal -->
+  <div id="brandModal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full p-6 space-y-4 text-xs">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-base font-bold text-slate-900">新增／編輯監測品牌</h3>
+        <button onclick="document.getElementById('brandModal').classList.add('hidden')" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 text-xl flex items-center justify-center">&times;</button>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="text-slate-600 font-semibold block mb-1">品牌代碼 *</label><input id="bId" placeholder="例如 YUANTA" class="input-clean w-full" /></div>
+        <div><label class="text-slate-600 font-semibold block mb-1">品牌名稱 *</label><input id="bName" placeholder="例如 三竹股市" class="input-clean w-full" /></div>
+        <div>
+          <label class="text-slate-600 font-semibold block mb-1">品牌分類</label>
+          <select id="bTier" class="input-clean w-full">
+            <option value="看盤軟體">看盤軟體（與 XQ 直接競品）</option>
+            <option value="財經資訊">財經資訊（財報／總經／新聞）</option>
+            <option value="券商API">券商API（程式交易／下單生態）</option>
+          </select>
+        </div>
+        <div><label class="text-slate-600 font-semibold block mb-1">搜尋別名（逗號分隔）</label><input id="bAliases" placeholder="三竹,三竹股市" class="input-clean w-full" /></div>
+        <div><label class="text-slate-600 font-semibold block mb-1">排除雜訊詞（逗號分隔）</label><input id="bExcludes" placeholder="人壽,銀行,徵才" class="input-clean w-full" /></div>
+        <div><label class="text-slate-600 font-semibold block mb-1">YouTube 頻道 ID（UC開頭）</label><input id="bYt" placeholder="UC..." class="input-clean w-full" /></div>
+        <div><label class="text-slate-600 font-semibold block mb-1">FB 粉專網址或帳號</label><input id="bFb" placeholder="https://www.facebook.com/..." class="input-clean w-full" /></div>
+        <div><label class="text-slate-600 font-semibold block mb-1">IG 帳號（免@）</label><input id="bIg" placeholder="official_ig" class="input-clean w-full" /></div>
+        <div><label class="text-slate-600 font-semibold block mb-1">Threads 帳號（免@）</label><input id="bTh" placeholder="official_threads" class="input-clean w-full" /></div>
+        <div><label class="text-slate-600 font-semibold block mb-1">iOS App ID（App Store 純數字）</label><input id="bIosApp" placeholder="例如 1480964883" class="input-clean w-full" /></div>
+        <div><label class="text-slate-600 font-semibold block mb-1">Android 套件名稱（Google Play）</label><input id="bAndPkg" placeholder="例如 com.yuanta.mobile" class="input-clean w-full" /></div>
+        <div class="col-span-2"><label class="text-slate-600 font-semibold block mb-1">官方網域（查 Google 廣告透明中心用）</label><input id="bDom" placeholder="example.com.tw" class="input-clean w-full" /></div>
+        <div class="col-span-2">
+          <label class="flex items-center gap-2 bg-blue-50/70 border border-blue-200/80 px-3 py-2 rounded-xl cursor-pointer text-blue-800 font-semibold">
+            <input type="checkbox" id="bIsSelf" /> 設為「★ 自家品牌」（首頁 4 張核心 KPI 與基準線將聚焦於此品牌）
+          </label>
+        </div>
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+        <button onclick="document.getElementById('brandModal').classList.add('hidden')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">取消</button>
+        <button onclick="saveBrand()" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold">儲存品牌</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 廣告素材高清大圖燈箱 Lightbox -->
+  <div id="lightboxModal" onclick="closeLightbox()" class="hidden fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-sm flex items-center justify-center p-6">
+    <div onclick="event.stopPropagation()" class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full overflow-hidden border border-slate-200">
+      <div class="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
+        <div>
+          <h3 id="lbTitle" class="text-sm font-bold text-slate-900">廣告素材預覽</h3>
+          <p id="lbSub" class="text-xs text-slate-500 mt-0.5"></p>
+        </div>
+        <button onclick="closeLightbox()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-900 text-xl flex items-center justify-center">&times;</button>
+      </div>
+      <div class="bg-slate-100 flex items-center justify-center p-4 max-h-[75vh] overflow-auto">
+        <img id="lbImg" src="" alt="廣告素材大圖" class="max-h-[68vh] w-auto rounded-xl shadow-md object-contain" />
+      </div>
+    </div>
+  </div>
+
+
+<!-- FinPulse 唯讀作品展示引擎（純靜態本地計算，絕無任何 API 金鑰） -->
+<script src="./showcase_data.js"></script>
+<script>
+(function() {
+  const SNAP = window.FINPULSE_SNAPSHOT || {};
+  const PASSCODE = SNAP.passcode || '000000';
+
+  function computeDashboard(dateFrom, dateTo, brandId) {
+    const brands = SNAP.brands || [];
+    const brandMap = {};
+    brands.forEach(b => { brandMap[b.brand_id] = b; });
+
+    const allPosts = (SNAP.posts || []).filter(p => p.published_date >= dateFrom && p.published_date <= dateTo).map(x => ({...x}));
+    const allMentions = (SNAP.mentions || []).filter(m => m.published_date >= dateFrom && m.published_date <= dateTo).map(x => ({...x}));
+    const allStoreReviews = (SNAP.mentions || []).filter(m => m.platform === 'App Store' || m.platform === 'Google Play').map(x => ({...x}));
+    const allAds = (SNAP.ads || []).filter(a => a.first_seen_date <= dateTo && a.last_seen_date >= dateFrom).map(x => ({...x}));
+    const allAppRanks = (SNAP.app_rankings || []).filter(r => r.snapshot_date >= dateFrom && r.snapshot_date <= dateTo).map(x => ({...x}));
+
+    const latestAppMap = {};
+    (SNAP.app_rankings || []).forEach(ar => { latestAppMap[ar.brand_id] = ar; });
+    allAppRanks.forEach(ar => { latestAppMap[ar.brand_id] = ar; });
+
+    const bidToGroup = {};
+    const groupMembers = {};
+    const parentBrands = [];
+    brands.forEach(b => {
+      const pid = (b.parent_brand_id || '').trim();
+      const gid = (pid && brandMap[pid]) ? pid : b.brand_id;
+      bidToGroup[b.brand_id] = gid;
+      if (!groupMembers[gid]) groupMembers[gid] = [];
+      groupMembers[gid].push(b);
+      if (!pid || !brandMap[pid]) parentBrands.push(b);
+    });
+
+    [...allPosts, ...allMentions, ...allStoreReviews, ...allAds, ...allAppRanks].forEach(item => {
+      const b = brandMap[item.brand_id];
+      const gid = bidToGroup[item.brand_id] || item.brand_id;
+      const gb = brandMap[gid];
+      item.group_brand_id = gid;
+      item.brand_name = gb ? gb.brand_name : (b ? b.brand_name : item.brand_id);
+      item.product_name = (b && b.product_name) ? b.product_name : '';
+      item.is_self_brand = !!(gb && gb.is_self);
+    });
+
+    const allMatrix = parentBrands.map(pb => {
+      const gid = pb.brand_id;
+      const members = groupMembers[gid] || [pb];
+      const memberIds = new Set(members.map(m => m.brand_id));
+      const bPosts = allPosts.filter(p => memberIds.has(p.brand_id));
+      const bAds = allAds.filter(a => memberIds.has(a.brand_id));
+      const bMentions = allMentions.filter(m => memberIds.has(m.brand_id));
+
+      const subApps = [];
+      members.forEach(mb => {
+        const mbApp = latestAppMap[mb.brand_id] || {};
+        if (mb.ios_app_id || mb.android_package_id || mbApp.app_name) {
+          subApps.push({
+            brand_id: mb.brand_id,
+            product_name: mb.product_name || mb.brand_name,
+            app_name: mbApp.app_name || mb.product_name || mb.brand_name,
+            ios_rank: Number(mbApp.ios_rank || 0),
+            ios_delta: Number(mbApp.ios_delta || 0),
+            ios_rating: Number(mbApp.ios_rating || 0),
+            ios_rating_count: Number(mbApp.ios_rating_count || 0),
+            ios_version: mbApp.ios_version || '',
+            android_rank: Number(mbApp.android_rank || 0),
+            android_delta: Number(mbApp.android_delta || 0),
+            android_rating: Number(mbApp.android_rating || 0),
+            android_rating_count: Number(mbApp.android_rating_count || 0),
+          });
+        }
+      });
+
+      const validIos = subApps.filter(x => x.ios_rank > 0);
+      const bestIos = validIos.length ? validIos.reduce((a, b) => a.ios_rank < b.ios_rank ? a : b) : (subApps[0] || {});
+      const validAnd = subApps.filter(x => x.android_rank > 0);
+      const bestAnd = validAnd.length ? validAnd.reduce((a, b) => a.android_rank < b.android_rank ? a : b) : (subApps[0] || {});
+
+      const totalEng = bPosts.reduce((s, p) => s + Number(p.likes || 0) + Number(p.comments || 0) + Number(p.shares || 0), 0);
+      const totalViews = bPosts.reduce((s, p) => s + Number(p.views || 0), 0) + bMentions.reduce((s, m) => s + Number(m.views || 0), 0);
+      const pos = bMentions.filter(m => m.sentiment === '正面').length;
+      const neg = bMentions.filter(m => m.sentiment === '負面').length;
+      const mCnt = bMentions.length;
+      const hasSocial = members.some(mb => !!(mb.yt_channel_id || mb.fb_page_ref || mb.ig_handle || mb.threads_handle));
+
+      return {
+        brand_id: gid,
+        brand_name: pb.brand_name,
+        is_self: !!pb.is_self,
+        tier: pb.tier,
+        has_official_social: hasSocial,
+        sub_product_count: members.length,
+        sub_product_names: members.map(m => m.product_name || m.brand_name).filter(Boolean),
+        sub_apps: subApps,
+        owned_post_count: bPosts.length,
+        active_ad_count: bAds.filter(a => a.status !== 'STOPPED').length,
+        new_ad_count: bAds.filter(a => a.status === 'NEW').length,
+        stopped_ad_count: bAds.filter(a => a.status === 'STOPPED').length,
+        total_engagement: totalEng,
+        total_views: totalViews,
+        mention_count: mCnt,
+        positive_ratio: mCnt ? Math.round(pos * 1000 / mCnt) / 10 : 0,
+        negative_ratio: mCnt ? Math.round(neg * 1000 / mCnt) / 10 : 0,
+        high_risk_ads: bAds.filter(a => Number(a.fraud_risk_score || 0) >= 70).length,
+        app_name: bestIos.app_name || bestAnd.app_name || '',
+        ios_rank: Number(bestIos.ios_rank || 0),
+        ios_delta: Number(bestIos.ios_delta || 0),
+        ios_rating: Number(bestIos.ios_rating || 0),
+        ios_rating_count: Number(bestIos.ios_rating_count || 0),
+        android_rank: Number(bestAnd.android_rank || 0),
+        android_delta: Number(bestAnd.android_delta || 0),
+        android_rating: Number(bestAnd.android_rating || 0),
+        android_rating_count: Number(bestAnd.android_rating_count || 0),
+      };
+    });
+
+    const selfRow = allMatrix.find(m => m.is_self) || allMatrix[0] || null;
+    let focusRow = selfRow;
+    let modeLabel = (selfRow && selfRow.is_self) ? '自家品牌核心戰情' : '品牌檢視';
+    if (brandId && brandId !== 'ALL') {
+      focusRow = allMatrix.find(m => m.brand_id === brandId) || selfRow;
+      modeLabel = (focusRow && focusRow.is_self) ? '自家品牌檢視' : '單一競品檢視';
+    }
+
+    let kpiFocus = {};
+    if (focusRow) {
+      const others = allMatrix.filter(m => m.brand_id !== focusRow.brand_id);
+      const othersSoc = others.filter(m => m.has_official_social);
+      const oc = others.length;
+      const ocSoc = othersSoc.length;
+      const totAllMentions = allMatrix.reduce((s, x) => s + x.mention_count, 0);
+      const totAllAds = allMatrix.reduce((s, x) => s + x.active_ad_count, 0);
+      const engPool = allMatrix.filter(x => x.has_official_social || x.brand_id === focusRow.brand_id).sort((a, b) => b.total_engagement - a.total_engagement);
+      const engRank = engPool.findIndex(x => x.brand_id === focusRow.brand_id) + 1;
+      kpiFocus = {
+        ...focusRow,
+        mode_label: modeLabel,
+        has_designated_self: !!selfRow,
+        competitor_count: oc,
+        social_competitor_count: ocSoc,
+        total_brands: allMatrix.length,
+        comp_avg_posts: ocSoc ? Math.round(othersSoc.reduce((s, x) => s + x.owned_post_count, 0) * 10 / ocSoc) / 10 : 0,
+        comp_avg_ads: oc ? Math.round(others.reduce((s, x) => s + x.active_ad_count, 0) * 10 / oc) / 10 : 0,
+        comp_avg_eng: ocSoc ? Math.round(othersSoc.reduce((s, x) => s + x.total_engagement, 0) / ocSoc) : 0,
+        comp_avg_mentions: oc ? Math.round(others.reduce((s, x) => s + x.mention_count, 0) * 10 / oc) / 10 : 0,
+        sov_mentions_pct: totAllMentions ? Math.round(focusRow.mention_count * 1000 / totAllMentions) / 10 : 0,
+        sov_ads_pct: totAllAds ? Math.round(focusRow.active_ad_count * 1000 / totAllAds) / 10 : 0,
+        eng_rank: engRank || 1,
+      };
+    }
+
+    const isFiltered = brandId && brandId !== 'ALL';
+    const posts = isFiltered ? allPosts.filter(p => p.group_brand_id === brandId) : allPosts;
+    const mentions = isFiltered ? allMentions.filter(m => m.group_brand_id === brandId) : allMentions;
+    const storeReviews = isFiltered ? allStoreReviews.filter(m => m.group_brand_id === brandId) : allStoreReviews;
+    const ads = isFiltered ? allAds.filter(a => a.group_brand_id === brandId) : allAds;
+    const matrix = isFiltered ? allMatrix.filter(m => m.brand_id === brandId) : allMatrix;
+
+    const focusBid = focusRow ? focusRow.brand_id : '';
+    const compCount = Math.max(1, parentBrands.filter(b => b.brand_id !== focusBid).length);
+    const trendMap = {};
+    allPosts.forEach(p => {
+      const d = p.published_date;
+      if (!trendMap[d]) trendMap[d] = { date: d, focus_total: 0, comp_raw: 0, focus_posts: 0, focus_mentions: 0 };
+      if (p.group_brand_id === focusBid) { trendMap[d].focus_total += 1; trendMap[d].focus_posts += 1; }
+      else { trendMap[d].comp_raw += 1; }
+    });
+    allMentions.forEach(m => {
+      const d = m.published_date;
+      if (!trendMap[d]) trendMap[d] = { date: d, focus_total: 0, comp_raw: 0, focus_posts: 0, focus_mentions: 0 };
+      if (m.group_brand_id === focusBid) { trendMap[d].focus_total += 1; trendMap[d].focus_mentions += 1; }
+      else { trendMap[d].comp_raw += 1; }
+    });
+    const dailyTrend = Object.keys(trendMap).sort().map(k => ({
+      date: k,
+      focus_total: trendMap[k].focus_total,
+      comp_avg: Math.round(trendMap[k].comp_raw * 100 / compCount) / 100,
+      focus_posts: trendMap[k].focus_posts,
+      focus_mentions: trendMap[k].focus_mentions,
+    }));
+
+    const platDist = { Facebook: 0, Instagram: 0, Threads: 0, YouTube: 0, 'App Store': 0, 'Google Play': 0 };
+    allPosts.forEach(p => { if (p.group_brand_id === focusBid) platDist[p.platform] = (platDist[p.platform] || 0) + 1; });
+    allMentions.forEach(m => { if (m.group_brand_id === focusBid) platDist[m.platform] = (platDist[m.platform] || 0) + 1; });
+
+    const reports = SNAP.weekly_reports || [];
+    const exactRep = reports.find(r => r.date_from === dateFrom && r.date_to === dateTo);
+    const aiDigest = exactRep ? exactRep.ai_digest : (reports[0] ? reports[0].ai_digest : '');
+
+    return {
+      date_from: dateFrom,
+      date_to: dateTo,
+      has_demo_data: false,
+      display_brands: parentBrands,
+      brands: brands,
+      kpi_focus: kpiFocus,
+      all_matrix: allMatrix,
+      matrix: matrix,
+      all_posts: allPosts,
+      all_ads: allAds,
+      all_mentions: allMentions,
+      all_store_reviews: allStoreReviews,
+      posts: posts,
+      ads: ads,
+      mentions: mentions,
+      store_reviews: storeReviews,
+      app_rankings: allAppRanks,
+      daily_trend: dailyTrend,
+      platform_distribution: platDist,
+      ai_digest: aiDigest,
+      monthly_apify_spend: 0,
+      quota_summary: {},
+      usage_logs: [],
+    };
+  }
+
+  // 攔截前端 API 呼叫改由本機快照即時計算
+  const origFetch = window.fetch.bind(window);
+  window.fetch = async function(input, init) {
+    const urlStr = typeof input === 'string' ? input : (input && input.url) || '';
+    if (urlStr.startsWith('/api/dashboard')) {
+      const u = new URL(urlStr, location.origin);
+      const df = u.searchParams.get('date_from') || SNAP.default_date_from || '2026-11-18';
+      const dt = u.searchParams.get('date_to') || SNAP.default_date_to || '2026-11-24';
+      const bid = u.searchParams.get('brand_id') || 'ALL';
+      const data = computeDashboard(df, dt, bid);
+      return new Response(JSON.stringify(data), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    }
+    if (urlStr.startsWith('/api/config')) {
+      return new Response(JSON.stringify({ ok: true, config: { SL_MONTHLY_APIFY_BUDGET_CAP: '4.50' } }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    }
+    return new Response(JSON.stringify({ ok: false, message: '目前為線上唯讀作品展示版，寫入與外部抓取功能僅限本機管理版使用。' }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  };
+
+  // 套用唯讀展示介面與通行碼保護
+  window.addEventListener('DOMContentLoaded', () => {
+    // 隱藏所有管理／寫入按鈕與個人設定分頁
+    const hideSelectors = [
+      '.nav-item[data-tab="settings"]',
+      'button[onclick="openCollectModal()"]',
+      'button[onclick="pushToSheets()"]',
+      'button[onclick="downloadExcel()"]',
+      'button[onclick*="switchTab(\'settings\')"]',
+      '#btnQuickDigest',
+      '#btnRunAiAnalyze',
+    ];
+    hideSelectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => el.classList.add('hidden'));
+    });
+
+    // 隱藏左側額度監控卡並插入唯讀展示資訊卡（保留原 DOM 節點避免腳本更新額度文字時找不到元素）
+    const asideBottom = document.querySelector('aside > div:last-child');
+    if (asideBottom) {
+      asideBottom.classList.add('hidden');
+      const infoWrap = document.createElement('div');
+      infoWrap.className = 'p-4 border-t border-slate-100';
+      infoWrap.innerHTML = `
+        <div class="bg-blue-50/80 border border-blue-200/80 rounded-2xl p-3.5 space-y-2 text-xs">
+          <div class="flex items-center gap-1.5 font-bold text-blue-800">
+            <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+            <span>唯讀作品展示模式</span>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed">
+            本頁為 FinPulse 金融證券競品聲量與廣告監測儀表板之線上展示版，收錄 <strong>30 家母品牌</strong>、<strong>雙平台商店排名與評論</strong>、<strong>Meta/Google 廣告素材</strong>與 <strong>Gemini AI 戰報</strong>真實快照。
+          </p>
+          <div class="text-[10.5px] text-slate-400 pt-1 border-t border-blue-100 num">
+            資料快照時間：${SNAP.generated_at || ''}
+          </div>
+        </div>`;
+      asideBottom.insertAdjacentElement('afterend', infoWrap);
+    }
+
+    // 頂部狀態膠囊改為「線上唯讀作品展示」
+    document.querySelectorAll('header span').forEach(sp => {
+      if (sp.textContent && sp.textContent.includes('本機免密碼直連')) {
+        sp.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span> 線上唯讀作品展示';
+      }
+    });
+
+    // 日期預設對齊快照最新 7 天（避免未來某天打開預設 7 天變空白！）
+    const snapEnd = SNAP.default_date_to || '2026-11-24';
+    const snapStart = SNAP.default_date_from || '2026-11-18';
+    window.setQuickRange = function(days) {
+      const end = new Date(snapEnd + 'T12:00:00');
+      const start = new Date(snapEnd + 'T12:00:00');
+      start.setDate(end.getDate() - (days - 1));
+      document.getElementById('dateFrom').value = start.toISOString().slice(0, 10);
+      document.getElementById('dateTo').value = snapEnd;
+      if (typeof loadDashboard === 'function') loadDashboard();
+    };
+    setTimeout(() => {
+      const dfEl = document.getElementById('dateFrom');
+      const dtEl = document.getElementById('dateTo');
+      if (dfEl && dtEl) {
+        dfEl.value = snapStart;
+        dtEl.value = snapEnd;
+        if (typeof loadDashboard === 'function') loadDashboard();
+      }
+    }, 80);
+
+    // 通行碼鎖定畫面（支援 ?pass=000000 專屬連結自動解鎖）
+    const params = new URLSearchParams(location.search);
+    const urlPass = params.get('pass') || '';
+    const unlocked = sessionStorage.getItem('finpulse_showcase_ok') === '1' || (urlPass && urlPass === PASSCODE);
+    if (urlPass && urlPass === PASSCODE) {
+      sessionStorage.setItem('finpulse_showcase_ok', '1');
+      params.delete('pass');
+      const cleanUrl = location.pathname + (params.toString() ? '?' + params.toString() : '') + location.hash;
+      history.replaceState(null, '', cleanUrl);
+    }
+
+    if (!unlocked) {
+      const gate = document.createElement('div');
+      gate.id = 'showcaseGate';
+      gate.className = 'fixed inset-0 z-[100] bg-slate-900/45 backdrop-blur-md flex items-center justify-center p-4';
+      gate.innerHTML = `
+        <div class="bg-white rounded-3xl shadow-2xl border border-slate-200/90 max-w-md w-full p-8 space-y-6">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-600/20 font-extrabold text-lg">F</div>
+            <div>
+              <h2 class="text-lg font-extrabold text-slate-900 tracking-tight">FinPulse 作品展示入口</h2>
+              <p class="text-xs text-slate-500">金融證券品牌聲量、廣告與 APP 雙平台監測儀表板</p>
+            </div>
+          </div>
+          <div class="space-y-2.5">
+            <label class="text-xs font-semibold text-slate-700 block">請輸入專屬瀏覽通行碼</label>
+            <input id="gatePassInput" type="password" inputmode="numeric" placeholder="請輸入 6 位數通行碼" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" />
+            <div id="gateErr" class="hidden text-xs text-rose-600 font-medium">通行碼不正確，請重新確認分享者提供的通行碼。</div>
+          </div>
+          <button id="gateSubmitBtn" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm shadow-blue-600/20 transition">
+            驗證並進入作品展示
+          </button>
+          <p class="text-[11px] text-slate-400 text-center">此頁面僅供指定分享對象唯讀預覽 · 資料快照 ${SNAP.generated_at || ''}</p>
+        </div>`;
+      document.body.appendChild(gate);
+      const inp = document.getElementById('gatePassInput');
+      const err = document.getElementById('gateErr');
+      const tryUnlock = () => {
+        if ((inp.value || '').trim() === PASSCODE) {
+          sessionStorage.setItem('finpulse_showcase_ok', '1');
+          gate.remove();
+        } else {
+          err.classList.remove('hidden');
+          inp.focus();
+          inp.select();
+        }
+      };
+      document.getElementById('gateSubmitBtn').addEventListener('click', tryUnlock);
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+      setTimeout(() => inp.focus(), 100);
+    }
+  });
+})();
+</script>
+
+  <script>
+    let STATE = {
+      data: null,
+      config: {},
+      adFilter: 'ALL',
+      matrixCat: 'ALL',
+      detailBrandId: null,
+      compareIds: [],
+      bdSections: { posts: true, ads: true, mentions: true },
+      bdPostPlats: [],
+      bdAdNets: [],
+      bdMentionPlats: [],
+      bdMentionSent: 'ALL',
+    };
+    let NAV_HISTORY = [{ tab: 'overview', brandId: null }];
+    let NAV_INDEX = 0;
+    let trendChartObj = null;
+    let platformChartObj = null;
+    let compareRadarObj = null;
+    let compareBarObj = null;
+    let bdAppChartObj = null;
+
+    const TAB_TITLES = {
+      overview: '戰情總覽矩陣',
+      compare: '自家 vs. 競品自由比較',
+      'brand-detail': '品牌 360° 全景詳情',
+      posts: '品牌官方操作時間軸',
+      ads: '金融廣告監測牆 (Ad Spy)',
+      mentions: '網友討論與口碑情緒',
+      settings: '名單同步與個人金鑰設定'
+    };
+
+    const AVATAR_COLORS = [
+      'bg-blue-100 text-blue-700',
+      'bg-emerald-100 text-emerald-700',
+      'bg-violet-100 text-violet-700',
+      'bg-amber-100 text-amber-700',
+      'bg-rose-100 text-rose-700',
+      'bg-cyan-100 text-cyan-700'
+    ];
+
+    function fmtNum(n) { return Number(n || 0).toLocaleString('zh-TW'); }
+    function esc(s) { return String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+    function showToast(msg, ok = true) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.className = `px-4 py-3 rounded-xl text-sm font-medium border shadow-sm ${ok ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-rose-50 border-rose-200 text-rose-800'}`;
+      el.classList.remove('hidden');
+      setTimeout(() => el.classList.add('hidden'), 6000);
+    }
+
+    function setQuickRange(days) {
+      const end = new Date();
+      const start = new Date();
+      start.setDate(end.getDate() - (days - 1));
+      document.getElementById('dateFrom').value = start.toISOString().slice(0, 10);
+      document.getElementById('dateTo').value = end.toISOString().slice(0, 10);
+      loadDashboard();
+    }
+
+    function updateNavControls(activeTab) {
+      document.getElementById('btnNavBack').disabled = NAV_INDEX <= 0;
+      document.getElementById('btnNavForward').disabled = NAV_INDEX >= NAV_HISTORY.length - 1;
+      document.getElementById('breadcrumbHome').classList.toggle('hidden', activeTab === 'overview');
+    }
+
+    function applyTabView(name, brandId = null) {
+      ['overview', 'compare', 'brand-detail', 'posts', 'ads', 'mentions', 'settings'].forEach(t => {
+        document.getElementById('tab-' + t).classList.toggle('hidden', t !== name);
+      });
+      document.querySelectorAll('.nav-item[data-tab]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === name);
+      });
+      if (name === 'brand-detail' && brandId) {
+        if (STATE.detailBrandId !== brandId) {
+          STATE.bdSections = { posts: true, ads: true, mentions: true };
+          STATE.bdPostPlats = [];
+          STATE.bdAdNets = [];
+          STATE.bdMentionPlats = [];
+          STATE.bdMentionSent = 'ALL';
+        }
+        STATE.detailBrandId = brandId;
+        const b = (STATE.data && STATE.data.brands || []).find(x => x.brand_id === brandId);
+        document.getElementById('pageTitle').textContent = b ? `${b.brand_name} · 360° 全景詳情` : '品牌 360° 全景詳情';
+        renderBrandDetail();
+      } else {
+        document.getElementById('pageTitle').textContent = TAB_TITLES[name] || '戰情總覽';
+        if (name === 'compare') renderCompare();
+      }
+      updateNavControls(name);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function switchTab(name, pushBrowser = true, brandId = null) {
+      if (!TAB_TITLES[name]) name = 'overview';
+      const cur = NAV_HISTORY[NAV_INDEX] || {};
+      if (cur.tab !== name || cur.brandId !== brandId) {
+        NAV_HISTORY = NAV_HISTORY.slice(0, NAV_INDEX + 1);
+        NAV_HISTORY.push({ tab: name, brandId });
+        NAV_INDEX = NAV_HISTORY.length - 1;
+      }
+      applyTabView(name, brandId);
+      if (pushBrowser) {
+        const hashStr = brandId ? `#${name}/${encodeURIComponent(brandId)}` : `#${name}`;
+        history.pushState({ tab: name, brandId, navIndex: NAV_INDEX }, '', hashStr);
+      }
+    }
+
+    function openBrandDetail(brandId) {
+      switchTab('brand-detail', true, brandId);
+    }
+
+    function navBack() {
+      if (NAV_INDEX > 0) {
+        NAV_INDEX--;
+        const target = NAV_HISTORY[NAV_INDEX];
+        applyTabView(target.tab, target.brandId);
+        const hashStr = target.brandId ? `#${target.tab}/${encodeURIComponent(target.brandId)}` : `#${target.tab}`;
+        history.replaceState({ tab: target.tab, brandId: target.brandId, navIndex: NAV_INDEX }, '', hashStr);
+      }
+    }
+
+    function navForward() {
+      if (NAV_INDEX < NAV_HISTORY.length - 1) {
+        NAV_INDEX++;
+        const target = NAV_HISTORY[NAV_INDEX];
+        applyTabView(target.tab, target.brandId);
+        const hashStr = target.brandId ? `#${target.tab}/${encodeURIComponent(target.brandId)}` : `#${target.tab}`;
+        history.replaceState({ tab: target.tab, brandId: target.brandId, navIndex: NAV_INDEX }, '', hashStr);
+      }
+    }
+
+    window.addEventListener('popstate', (e) => {
+      const parts = (location.hash || '#overview').replace('#', '').split('/');
+      const hashTab = parts[0];
+      const hashBid = parts[1] ? decodeURIComponent(parts[1]) : null;
+      const targetTab = (e.state && e.state.tab) ? e.state.tab : (TAB_TITLES[hashTab] ? hashTab : 'overview');
+      const targetBid = (e.state && e.state.brandId !== undefined) ? e.state.brandId : hashBid;
+      if (e.state && typeof e.state.navIndex === 'number') {
+        NAV_INDEX = Math.max(0, Math.min(e.state.navIndex, NAV_HISTORY.length - 1));
+      }
+      applyTabView(targetTab, targetBid);
+    });
+
+    function openLightbox(src, title, sub) {
+      document.getElementById('lbImg').src = src;
+      document.getElementById('lbTitle').textContent = title || '廣告素材預覽';
+      document.getElementById('lbSub').textContent = sub || '';
+      document.getElementById('lightboxModal').classList.remove('hidden');
+    }
+    function closeLightbox() { document.getElementById('lightboxModal').classList.add('hidden'); }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+    async function loadSettings() {
+      const res = await fetch('/api/settings').then(r => r.json());
+      const c = res.config || {};
+      STATE.config = c;
+      document.getElementById('cfgSheetId').value = c.SL_PERSONAL_SHEET_ID || '';
+      document.getElementById('cfgWebhook').value = c.SL_PERSONAL_SHEETS_WEBHOOK_URL || '';
+      document.getElementById('cfgApifyToken').value = c.SL_PERSONAL_APIFY_TOKEN || '';
+      document.getElementById('cfgYtKey').value = c.SL_PERSONAL_YOUTUBE_API_KEY || '';
+      document.getElementById('cfgGeminiKey').value = c.SL_PERSONAL_GEMINI_API_KEY || '';
+      document.getElementById('cfgBudgetCap').value = c.SL_MONTHLY_APIFY_BUDGET_CAP || '4.50';
+      document.getElementById('cfgActorIg').value = c.SL_APIFY_ACTOR_IG || '';
+      document.getElementById('cfgActorFbPosts').value = c.SL_APIFY_ACTOR_FB_POSTS || '';
+      document.getElementById('cfgActorFbSearch').value = c.SL_APIFY_ACTOR_FB_SEARCH || '';
+      document.getElementById('cfgActorThProfile').value = c.SL_APIFY_ACTOR_THREADS_PROFILE || '';
+      document.getElementById('cfgActorThSearch').value = c.SL_APIFY_ACTOR_THREADS_SEARCH || '';
+      document.getElementById('cfgGeminiModel').value = c.SL_PERSONAL_GEMINI_MODEL || 'gemini-2.5-flash';
+
+      document.getElementById('statusApify').innerHTML = c.SL_PERSONAL_APIFY_TOKEN_SET ? '<span class="text-emerald-600 font-semibold">● 已設定</span>' : '<span class="text-slate-400">○ 未設定</span>';
+      document.getElementById('statusYt').innerHTML = c.SL_PERSONAL_YOUTUBE_API_KEY_SET ? '<span class="text-emerald-600 font-semibold">● 已設定</span>' : '<span class="text-slate-400">○ 未設定</span>';
+      document.getElementById('statusGemini').innerHTML = c.SL_PERSONAL_GEMINI_API_KEY_SET ? '<span class="text-emerald-600 font-semibold">● 已設定</span>' : '<span class="text-slate-400">○ 未設定</span>';
+      if (c.SL_PERSONAL_SHEET_ID) {
+        const url = `https://docs.google.com/spreadsheets/d/${c.SL_PERSONAL_SHEET_ID}/edit`;
+        document.getElementById('openSheetLink').href = url;
+        document.getElementById('sidebarSheetLink').href = url;
+      }
+    }
+
+    async function loadDashboard() {
+      const df = document.getElementById('dateFrom').value;
+      const dt = document.getElementById('dateTo').value;
+      const bid = document.getElementById('brandFilter').value;
+      const data = await fetch(`/api/dashboard?date_from=${df}&date_to=${dt}&brand_id=${bid}`).then(r => r.json());
+      STATE.data = data;
+
+      const sel = document.getElementById('brandFilter');
+      const curVal = sel.value;
+      const dispBrands = data.display_brands || data.brands || [];
+      sel.innerHTML = '<option value="ALL">全部追蹤品牌</option>' + dispBrands.map(b => `<option value="${esc(b.brand_id)}">${esc(b.brand_name)}</option>`).join('');
+      if ([...sel.options].some(o => o.value === curVal)) sel.value = curVal;
+
+      document.getElementById('demoBanner').classList.toggle('hidden', !data.has_demo_data);
+
+      const hasRisk = (data.ads || []).some(a => (a.fraud_risk_score || 0) >= 70);
+      document.getElementById('navRiskDot').classList.toggle('hidden', !hasRisk);
+
+      const cap = parseFloat(STATE.config.SL_MONTHLY_APIFY_BUDGET_CAP || '4.50') || 4.50;
+      const spent = Number(data.monthly_apify_spend || 0);
+      const pct = Math.min(100, Math.round((spent / cap) * 100));
+      document.getElementById('budgetText').textContent = `$${spent.toFixed(2)} / $${cap.toFixed(2)}`;
+      document.getElementById('budgetPctText').textContent = `${pct}%`;
+      document.getElementById('budgetPctText').className = `font-semibold ml-0.5 ${pct >= 85 ? 'text-rose-600' : 'text-emerald-600'}`;
+      document.getElementById('budgetBar').style.width = `${pct}%`;
+      document.getElementById('budgetBar').className = `h-full rounded-full transition-all duration-300 ${pct >= 85 ? 'bg-rose-500' : 'bg-gradient-to-r from-emerald-500 to-teal-400'}`;
+
+      const qs = data.quota_summary || {};
+      const ytUsed = Number(qs.yt_today_units || 0);
+      const ytMax = Number(qs.yt_daily_limit || 10000);
+      const ytPct = Math.min(100, Math.round((ytUsed / ytMax) * 100));
+      document.getElementById('ytQuotaText').textContent = `${fmtNum(ytUsed)} / ${fmtNum(ytMax)}`;
+      document.getElementById('ytQuotaPct').textContent = `${ytPct}%`;
+      document.getElementById('ytQuotaBar').style.width = `${ytPct}%`;
+
+      const gmUsed = Number(qs.gemini_today_calls || 0);
+      const gmMax = Number(qs.gemini_daily_limit || 250);
+      const gmToks = Number(qs.gemini_today_tokens || 0);
+      const gmPct = Math.min(100, Math.round((gmUsed / gmMax) * 100));
+      document.getElementById('gmQuotaText').textContent = `${fmtNum(gmUsed)} / ${fmtNum(gmMax)} 次`;
+      document.getElementById('gmQuotaPct').textContent = `${gmPct}%`;
+      document.getElementById('gmQuotaBar').style.width = `${gmPct}%`;
+      document.getElementById('gmTokenText').textContent = `今日累計 ${fmtNum(gmToks)} Tokens（去重不重算）`;
+
+      const kf = data.kpi_focus || {};
+      const fName = kf.brand_name || '尚無品牌';
+      const isSelfFocus = !!kf.is_self;
+      document.getElementById('kpiModeBadge').textContent = isSelfFocus ? `★ ${kf.mode_label || '自家品牌戰情'}` : (kf.mode_label || '單一品牌檢視');
+      document.getElementById('kpiModeBadge').className = `pill shadow-sm ${isSelfFocus ? 'bg-blue-600 text-white' : 'bg-slate-800 text-white'}`;
+      document.getElementById('kpiFocusName').textContent = fName;
+      document.getElementById('kpiFocusHint').textContent = `下方 4 張指標卡僅統計「${fName}」單一品牌數據，並與其餘 ${kf.competitor_count || 0} 家同業均值自動對照`;
+
+      document.getElementById('kpiPosts').textContent = fmtNum(kf.owned_post_count || 0);
+      document.getElementById('kpiPostsBench').innerHTML = `有社群競品均值 <strong class="text-slate-700">${kf.comp_avg_posts || 0}</strong> 篇 <span class="text-slate-300 mx-1">|</span> 計 ${kf.social_competitor_count || 0} 家`;
+
+      document.getElementById('kpiAds').textContent = fmtNum(kf.active_ad_count || 0);
+      document.getElementById('kpiAdsDiff').innerHTML = `<span class="text-emerald-600 font-semibold">新上 +${kf.new_ad_count || 0}</span> <span class="text-slate-300 mx-1">|</span> 競品均值 <strong class="text-slate-700">${kf.comp_avg_ads || 0}</strong> 則 (佔 ${kf.sov_ads_pct || 0}%)`;
+
+      document.getElementById('kpiEng').textContent = fmtNum(kf.total_engagement || 0);
+      document.getElementById('kpiViews').innerHTML = `同業互動第 <strong>#${kf.eng_rank || 1}</strong> <span class="text-slate-300 mx-1">|</span> 觀看 ${fmtNum(kf.total_views || 0)}`;
+
+      document.getElementById('kpiMentions').textContent = fmtNum(kf.mention_count || 0);
+      document.getElementById('kpiSent').innerHTML = `<span class="text-violet-700 font-semibold">SOV ${kf.sov_mentions_pct || 0}%</span> <span class="text-slate-300 mx-1">|</span> <span class="text-emerald-600">正${kf.positive_ratio || 0}%</span> / <span class="text-rose-600">負${kf.negative_ratio || 0}%</span>`;
+
+      document.getElementById('trendChartTitle').textContent = `${fName} vs. 競品平均 每日聲量趨勢`;
+      document.getElementById('platformChartTitle').textContent = `${fName} 四大平台聲量佔比`;
+
+      renderAiDigest(data.ai_digest);
+
+      // 預設自動勾選前 2 家競品供比較頁即刻檢視
+      const allComps = (data.all_matrix || []).filter(m => !m.is_self).map(m => m.brand_id);
+      STATE.compareIds = STATE.compareIds.filter(id => allComps.includes(id));
+      if (!STATE.compareIds.length && allComps.length) {
+        STATE.compareIds = allComps.slice(0, 2);
+      }
+
+      renderMatrix();
+      renderCharts();
+      renderPosts();
+      renderAds();
+      renderMentions();
+      renderBrandsTable();
+      renderCompare();
+      if (STATE.detailBrandId) renderBrandDetail();
+    }
+
+    function fmtInlineMd(str) {
+      let s = esc(str || '');
+      // 處理 **粗體** 與行內 `code`，清除殘餘星號
+      s = s.replace(/\*\*(.+?)\*\*/g, '<strong class="text-slate-900 font-bold">$1</strong>');
+      s = s.replace(/`([^`]+)`/g, '<code class="bg-slate-100 text-blue-700 px-1 py-0.5 rounded text-xs font-mono">$1</code>');
+      s = s.replace(/\*{2,}/g, '');
+      return s;
+    }
+
+    function renderAiDigest(rawText) {
+      const box = document.getElementById('aiDigestBox');
+      if (!box) return;
+      if (!rawText || !rawText.trim()) {
+        box.innerHTML = '<div class="text-slate-500 text-[13px]">尚未生成本期 Gemini 戰報。點擊右上角按鈕即可針對尚未分析的新資料批次標註並生成重點戰報（已分析舊資料不重複扣 Token）。</div>';
+        return;
+      }
+
+      const lines = rawText.replace(/\r/g, '').split('\n').map(l => l.trim()).filter(Boolean);
+      let bannerTitle = '';
+      const sections = [];
+      let current = null;
+
+      for (const line of lines) {
+        if (/^[-_*=]{3,}$/.test(line)) continue;
+        // 偵測分段標題（如 **1. 本期最活躍...** 或 ### 1. ... 或 1. ...）
+        const stripped = line.replace(/^#{1,4}\s*/, '').replace(/^\*{1,3}|\*{1,3}$/g, '').trim();
+        const secMatch = stripped.match(/^([1-9])[\.\、\)]\s*(.+)$/);
+        const isBullet = /^[\*\-•]\s+/.test(line);
+        if (secMatch && !isBullet) {
+          current = { num: secMatch[1], title: secMatch[2].replace(/\*{1,3}/g, '').trim(), items: [] };
+          sections.push(current);
+          continue;
+        }
+        // 在「1.」出現之前的任何前言／標題／統計區間列，一律合併到頂部標題列，絕不額外長出一張空卡片
+        if (sections.length === 0 && !isBullet) {
+          bannerTitle = bannerTitle ? `${bannerTitle} ｜ ${stripped}` : stripped;
+          continue;
+        }
+        // 項目符號列（僅去除開頭項目符號 * / - / •，完整保留內文 **粗體** 標記）
+        const cleanItem = line.replace(/^(?:\*\s+|[-•]\s*)/, '').trim();
+        if (!cleanItem) continue;
+        if (!current) {
+          current = { num: String(sections.length + 1), title: '重點洞察', items: [] };
+          sections.push(current);
+        }
+        current.items.push(cleanItem);
+      }
+
+      const accents = [
+        { badge: 'bg-blue-600 text-white', border: 'border-blue-100', dot: 'bg-blue-500', bg: 'bg-white/95' },
+        { badge: 'bg-rose-500 text-white', border: 'border-rose-100', dot: 'bg-rose-500', bg: 'bg-white/95' },
+        { badge: 'bg-emerald-600 text-white', border: 'border-emerald-100', dot: 'bg-emerald-500', bg: 'bg-white/95' },
+      ];
+
+      if (sections.length > 0) {
+        const titleBar = bannerTitle
+          ? `<div class="mb-3 flex items-center gap-2 text-xs font-semibold text-blue-800/80"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span><span>${esc(bannerTitle)}</span></div>`
+          : '';
+        const cards = sections.map((sec, idx) => {
+          const ac = accents[idx % accents.length];
+          const bullets = sec.items.map(it => `
+            <li class="flex items-start gap-2 text-[13px] text-slate-600 leading-relaxed">
+              <span class="w-1.5 h-1.5 rounded-full ${ac.dot} mt-2 shrink-0"></span>
+              <span>${fmtInlineMd(it)}</span>
+            </li>`).join('');
+          return `
+          <div class="${ac.bg} rounded-xl border ${ac.border} p-4 shadow-sm space-y-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-5 h-5 rounded-lg ${ac.badge} text-[11px] font-bold flex items-center justify-center shrink-0 num">${esc(sec.num)}</span>
+              <h4 class="text-[13.5px] font-bold text-slate-900">${esc(sec.title)}</h4>
+            </div>
+            <ul class="space-y-2">${bullets}</ul>
+          </div>`;
+        }).join('');
+        box.innerHTML = `${titleBar}<div class="grid grid-cols-1 lg:grid-cols-3 gap-3.5">${cards}</div>`;
+      } else {
+        box.innerHTML = `<div class="space-y-1.5">${lines.map(l => `<p class="text-[13.5px] text-slate-700">${fmtInlineMd(l.replace(/^[\*\-•]+\s*/, ''))}</p>`).join('')}</div>`;
+      }
+    }
+
+    // 統一排名漲跌規則：上升 >= 5 名用紅色、下降 >= 5 名用綠色、其餘（-4 ~ +4）統一灰色避免雜亂
+    function fmtRankDeltaSpan(delta, verbose = false) {
+      const n = Number(delta || 0);
+      if (n >= 5) {
+        return `<span class="text-rose-600 font-bold">${verbose ? '▲ 上升 ' + n + ' 名' : '▲' + n}</span>`;
+      }
+      if (n <= -5) {
+        return `<span class="text-emerald-600 font-bold">${verbose ? '▼ 下降 ' + Math.abs(n) + ' 名' : '▼' + Math.abs(n)}</span>`;
+      }
+      if (n > 0) {
+        return `<span class="text-slate-400 font-medium">${verbose ? '▲ ' + n + ' 名' : '▲' + n}</span>`;
+      }
+      if (n < 0) {
+        return `<span class="text-slate-400 font-medium">${verbose ? '▼ ' + Math.abs(n) + ' 名' : '▼' + Math.abs(n)}</span>`;
+      }
+      return `<span class="text-slate-400">${verbose ? '持平' : '-'}</span>`;
+    }
+
+    function fmtRankBadge(rank, delta, label) {
+      if (!rank || rank <= 0) return `<span class="text-slate-300 text-[11px]">${label} 未入榜</span>`;
+      return `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[11px] font-semibold num">${label} <strong>#${rank}</strong> ${fmtRankDeltaSpan(delta, false)}</span>`;
+    }
+
+    function fmtStarBadge(rating) {
+      const r = Number(rating || 0);
+      if (!r || r <= 0) return '';
+      const stars = '★'.repeat(Math.min(5, Math.round(r))) + '☆'.repeat(Math.max(0, 5 - Math.round(r)));
+      const cls = r >= 4 ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : (r <= 2 ? 'bg-rose-50 text-rose-700 border border-rose-200' : 'bg-amber-50 text-amber-700 border border-amber-200');
+      return `<span class="pill ${cls} num">${stars} ${r.toFixed(1)}</span>`;
+    }
+
+    function catBadge(tier, isSelf) {
+      if (isSelf || tier === '自家') return '<span class="pill bg-blue-600 text-white">★ 自家</span>';
+      if (tier === '看盤軟體') return '<span class="pill bg-indigo-50 text-indigo-700 border border-indigo-200">看盤軟體</span>';
+      if (tier === '財經資訊') return '<span class="pill bg-amber-50 text-amber-700 border border-amber-200">財經資訊</span>';
+      if (tier === '券商API') return '<span class="pill bg-emerald-50 text-emerald-700 border border-emerald-200">券商API</span>';
+      return `<span class="pill bg-slate-100 text-slate-600">${esc(tier || '未分類')}</span>`;
+    }
+
+    function setMatrixCat(cat) {
+      STATE.matrixCat = cat;
+      document.querySelectorAll('.mcat-btn').forEach(btn => {
+        const active = btn.dataset.mcat === cat;
+        if (active) {
+          btn.className = 'mcat-btn px-3 py-1 rounded-full bg-slate-900 text-white font-semibold shadow-sm transition';
+        } else if (btn.dataset.mcat === '看盤軟體') {
+          btn.className = 'mcat-btn px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 font-semibold transition';
+        } else if (btn.dataset.mcat === '財經資訊') {
+          btn.className = 'mcat-btn px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-semibold transition';
+        } else if (btn.dataset.mcat === '券商API') {
+          btn.className = 'mcat-btn px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold transition';
+        } else {
+          btn.className = 'mcat-btn px-3 py-1 rounded-full bg-slate-100 text-slate-600 font-semibold transition';
+        }
+      });
+      renderMatrix();
+    }
+
+    function renderMatrix() {
+      const body = document.getElementById('matrixBody');
+      const allRows = STATE.data.matrix || [];
+      const rows = STATE.matrixCat === 'ALL'
+        ? allRows
+        : allRows.filter(m => m.is_self || m.tier === STATE.matrixCat);
+      if (!rows.length) {
+        body.innerHTML = '<tr><td colspan="9" class="px-6 py-10 text-center text-slate-400">此分類尚無品牌資料</td></tr>';
+        return;
+      }
+      body.innerHTML = rows.map((m, idx) => {
+        const avColor = AVATAR_COLORS[idx % AVATAR_COLORS.length];
+        const initial = (m.brand_name || 'B').slice(0, 1);
+        const neu = Math.max(0, 100 - m.positive_ratio - m.negative_ratio);
+        return `
+        <tr onclick="openBrandDetail('${esc(m.brand_id)}')" class="cursor-pointer group ${m.is_self ? 'bg-blue-50/55 hover:bg-blue-100/60' : 'hover:bg-slate-50'} transition">
+          <td class="px-5 py-4">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg ${m.is_self ? 'bg-blue-600 text-white shadow-sm' : avColor} flex items-center justify-center font-bold text-xs shrink-0">${esc(initial)}</div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-semibold text-slate-900 group-hover:text-blue-700 transition">${esc(m.brand_name)}</span>
+                  ${m.is_self ? '<span class="pill bg-blue-600 text-white text-[10px]">★ 自家</span>' : ''}
+                  ${m.sub_product_count > 1 ? `<span title="旗下追蹤：${esc((m.sub_product_names || []).join('、'))}" class="pill bg-slate-100 text-slate-500 text-[10px]">含 ${m.sub_product_count} 款產品</span>` : ''}
+                </div>
+                <div class="text-[11px] text-blue-600 opacity-0 group-hover:opacity-100 transition mt-0.5">點擊展開 360° 社群／廣告／口碑詳情 →</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-2.5 py-4 text-center">
+            ${catBadge(m.tier, m.is_self)}
+          </td>
+          <td class="px-2.5 py-4 text-center">
+            <div class="flex flex-col items-center gap-1">
+              ${fmtRankBadge(m.ios_rank, m.ios_delta, 'iOS')}
+              ${fmtRankBadge(m.android_rank, m.android_delta, 'GP')}
+            </div>
+          </td>
+          <td class="px-2.5 py-4 text-right font-semibold text-slate-800 num">${m.has_official_social ? m.owned_post_count : '<span class="text-slate-300 font-normal text-xs" title="該品牌未經營官方社群帳號">未經營</span>'}</td>
+          <td class="px-2.5 py-4 text-right num">
+            <span class="font-bold text-slate-900">${m.active_ad_count}</span>
+            <span class="text-emerald-600 font-semibold text-xs ml-1">+${m.new_ad_count}</span>
+            <span class="text-slate-400 text-xs">/-${m.stopped_ad_count}</span>
+          </td>
+          <td class="px-2.5 py-4 text-right font-semibold text-emerald-700 num">${m.has_official_social ? fmtNum(m.total_engagement) : '<span class="text-slate-300 font-normal text-xs" title="該品牌未經營官方社群帳號">—</span>'}</td>
+          <td class="px-2.5 py-4 text-right font-semibold text-violet-700 num">${m.mention_count}</td>
+          <td class="px-3 py-4">
+            <div class="w-28 mx-auto space-y-1">
+              <div class="flex justify-between text-[11px] num">
+                <span class="text-emerald-600 font-semibold">${m.positive_ratio}%正</span>
+                <span class="${m.negative_ratio >= 40 ? 'text-rose-600 font-bold' : 'text-slate-400'}">${m.negative_ratio}%負</span>
+              </div>
+              <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden flex">
+                <div class="bg-emerald-500 h-full" style="width:${m.positive_ratio}%"></div>
+                <div class="bg-slate-300 h-full" style="width:${neu}%"></div>
+                <div class="bg-rose-500 h-full" style="width:${m.negative_ratio}%"></div>
+              </div>
+            </div>
+          </td>
+          <td class="px-3 py-4 text-center" onclick="event.stopPropagation()">
+            ${m.high_risk_ads > 0
+              ? `<button onclick="switchTab('ads');setAdFilter('RISK')" class="pill bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition">⚠ ${m.high_risk_ads} 則警示</button>`
+              : '<span class="pill bg-emerald-50 text-emerald-700 border border-emerald-200/70">正常</span>'}
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    function renderCharts() {
+      const trend = STATE.data.daily_trend || [];
+      if (trendChartObj) trendChartObj.destroy();
+      const ctx1 = document.getElementById('trendChart').getContext('2d');
+      const gBlue = ctx1.createLinearGradient(0, 0, 0, 240);
+      gBlue.addColorStop(0, 'rgba(37, 99, 235, 0.22)');
+      gBlue.addColorStop(1, 'rgba(37, 99, 235, 0.0)');
+      const gPurple = ctx1.createLinearGradient(0, 0, 0, 240);
+      gPurple.addColorStop(0, 'rgba(139, 92, 246, 0.20)');
+      gPurple.addColorStop(1, 'rgba(139, 92, 246, 0.0)');
+
+      const focusName = (STATE.data.kpi_focus && STATE.data.kpi_focus.brand_name) ? STATE.data.kpi_focus.brand_name : '自家品牌';
+      trendChartObj = new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: trend.map(x => x.date.slice(5)),
+          datasets: [
+            { label: `${focusName}（單日聲量）`, data: trend.map(x => x.focus_total), borderColor: '#2563EB', backgroundColor: gBlue, borderWidth: 2.8, pointRadius: 4, pointBackgroundColor: '#FFFFFF', pointBorderWidth: 2, tension: 0.35, fill: true },
+            { label: '競品平均（單日聲量）', data: trend.map(x => x.comp_avg), borderColor: '#94A3B8', backgroundColor: 'transparent', borderWidth: 2, borderDash: [6, 4], pointRadius: 3, pointBackgroundColor: '#FFFFFF', pointBorderWidth: 2, tension: 0.35, fill: false }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'top', align: 'end', labels: { color: '#475569', usePointStyle: true, boxWidth: 8, font: { size: 12 } } } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: '#64748B', font: { size: 11 } } },
+            y: { beginAtZero: true, grid: { color: '#EEF2F7' }, ticks: { color: '#64748B', stepSize: 1, font: { size: 11 } } }
+          }
+        }
+      });
+
+      const pd = STATE.data.platform_distribution || {};
+      if (platformChartObj) platformChartObj.destroy();
+      platformChartObj = new Chart(document.getElementById('platformChart'), {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(pd),
+          datasets: [{ data: Object.values(pd), backgroundColor: ['#2563EB', '#EC4899', '#334155', '#EF4444', '#0EA5E9', '#10B981'], borderColor: '#FFFFFF', borderWidth: 3, hoverOffset: 6 }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '66%',
+          plugins: { legend: { position: 'bottom', labels: { color: '#475569', usePointStyle: true, padding: 16, font: { size: 12 } } } }
+        }
+      });
+    }
+
+    function platBadge(p) {
+      const map = {
+        Facebook: 'bg-blue-50 text-blue-700 border border-blue-200/80',
+        Instagram: 'bg-pink-50 text-pink-700 border border-pink-200/80',
+        Threads: 'bg-slate-100 text-slate-800 border border-slate-300/80',
+        YouTube: 'bg-red-50 text-red-700 border border-red-200/80',
+        'App Store': 'bg-sky-50 text-sky-700 border border-sky-200/80',
+        'Google Play': 'bg-emerald-50 text-emerald-700 border border-emerald-200/80'
+      };
+      return `<span class="pill ${map[p] || 'bg-slate-100 text-slate-700'}">${esc(p)}</span>`;
+    }
+
+    function renderPosts() {
+      const pf = document.getElementById('postPlatformFilter').value;
+      const kw = document.getElementById('postKeywordFilter').value.trim().toLowerCase();
+      const list = (STATE.data.posts || []).filter(p => (pf === 'ALL' || p.platform === pf) && (!kw || (p.content_text + p.campaign_tag + p.brand_name).toLowerCase().includes(kw)));
+      document.getElementById('postCountLabel').textContent = `共 ${list.length} 篇`;
+      document.getElementById('postsGrid').innerHTML = list.length ? list.map(p => `
+        <div class="surface surface-hover p-5 flex flex-col justify-between gap-3">
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">${platBadge(p.platform)}<span class="font-bold text-sm text-slate-900">${esc(p.brand_name)}</span></div>
+              <span class="text-xs text-slate-400 num">${esc(p.published_date)}</span>
+            </div>
+            <p class="text-[13.5px] text-slate-700 leading-relaxed">${esc(p.content_text)}</p>
+            ${p.ai_summary ? `<div class="text-xs bg-blue-50/70 border border-blue-100 text-blue-800 px-3 py-2 rounded-xl"><span class="font-bold">AI 訴求 [${esc(p.campaign_tag)}]：</span>${esc(p.ai_summary)}</div>` : ''}
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-slate-100 text-xs text-slate-500 num">
+            <div class="flex flex-wrap gap-3.5 font-medium">
+              <span>讚 <strong class="text-slate-800">${fmtNum(p.likes)}</strong></span>
+              <span>留言 <strong class="text-slate-800">${fmtNum(p.comments)}</strong></span>
+              <span>分享 <strong class="text-slate-800">${fmtNum(p.shares)}</strong></span>
+              ${p.views > 0 ? `<span class="text-blue-600">觀看 <strong>${fmtNum(p.views)}</strong></span>` : ''}
+            </div>
+            ${p.url ? `<a href="${esc(p.url)}" target="_blank" class="text-blue-600 hover:text-blue-800 font-semibold">原貼文 ↗</a>` : ''}
+          </div>
+        </div>
+      `).join('') : '<div class="col-span-2 surface p-10 text-center text-slate-400 text-sm">尚無符合條件的官方貼文</div>';
+    }
+
+    function setAdFilter(f) {
+      STATE.adFilter = f;
+      document.querySelectorAll('.ad-f-btn').forEach(btn => {
+        const active = btn.dataset.adfilter === f;
+        if (btn.dataset.adfilter === 'RISK') {
+          btn.className = `ad-f-btn px-3.5 py-1.5 rounded-xl font-semibold transition ${active ? 'bg-rose-600 text-white shadow-sm' : 'bg-rose-50 text-rose-700 border border-rose-200'}`;
+        } else {
+          btn.className = `ad-f-btn px-3.5 py-1.5 rounded-xl font-semibold transition ${active ? 'bg-blue-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`;
+        }
+      });
+      renderAds();
+    }
+
+    function renderAdCardHtml(a) {
+      const isRisk = (a.fraud_risk_score || 0) >= 70;
+      const stBadge = a.status === 'NEW'
+        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+        : (a.status === 'STOPPED' ? 'bg-slate-100 text-slate-500' : 'bg-blue-50 text-blue-700 border border-blue-200');
+      const imgUrl = a.creative_image_url || '';
+      const imgBlock = imgUrl
+        ? `<div class="relative group aspect-[16/9] bg-slate-100 overflow-hidden border-b border-slate-100 cursor-zoom-in" onclick="openLightbox('${esc(imgUrl)}', '${esc(a.brand_name)} · ${esc(a.ad_network)} 廣告素材', '連投 ${a.active_days} 天｜${esc(a.placements)}')">
+             <img src="${esc(imgUrl)}" alt="廣告刊登素材" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300" />
+             <div class="absolute bottom-2.5 right-2.5 bg-slate-900/75 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition">點擊放大預覽</div>
+           </div>`
+        : `<div class="aspect-[16/9] bg-gradient-to-br from-slate-50 to-slate-100 border-b border-slate-100 flex flex-col items-center justify-center text-slate-400 text-xs gap-1">
+             <svg class="w-6 h-6 opacity-50" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" /></svg>
+             <span>尚未擷取素材圖片（執行 Playwright 抓取後自動存檔顯示）</span>
+           </div>`;
+      return `
+      <div class="surface surface-hover overflow-hidden flex flex-col ${isRisk ? 'border-l-4 border-l-rose-500 bg-rose-50/20' : ''}">
+        ${imgBlock}
+        <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="pill ${a.ad_network==='Meta'?'bg-indigo-50 text-indigo-700 border border-indigo-200':'bg-amber-50 text-amber-700 border border-amber-200'}">${esc(a.ad_network)} Ads</span>
+                <span class="font-bold text-sm text-slate-900">${esc(a.brand_name)}</span>
+                <span class="pill ${stBadge} num">${esc(a.status)}・連投 ${a.active_days} 天</span>
+              </div>
+              ${isRisk ? `<span class="pill bg-rose-600 text-white">⚠ 反詐風險 ${a.fraud_risk_score}</span>` : ''}
+            </div>
+            <p class="text-[13.5px] text-slate-700 leading-relaxed">${esc(a.creative_text)}</p>
+            <div class="text-xs space-y-1.5 bg-slate-50 p-3 rounded-xl border border-slate-200/70">
+              <div class="text-slate-500">版位：<span class="text-slate-800 font-medium">${esc(a.placements)}</span> <span class="mx-1.5 text-slate-300">|</span> 落地頁：<span class="text-blue-600 font-medium">${esc(a.landing_domain || '未提供')}</span></div>
+              <div class="text-slate-500">實名揭露：<span class="${isRisk ? 'text-rose-600 font-bold' : 'text-emerald-700 font-medium'}">${esc(a.payer_beneficiary)}</span></div>
+              ${a.ai_offer_summary ? `<div class="text-blue-700 font-medium pt-0.5">AI 策略拆解：${esc(a.ai_offer_summary)}</div>` : ''}
+            </div>
+          </div>
+          <div class="flex justify-between items-center text-xs text-slate-400 num pt-2 border-t border-slate-100">
+            <span>首次發現 ${esc(a.first_seen_date)} · 最近活躍 ${esc(a.last_seen_date)}</span>
+            ${a.media_url ? `<a href="${esc(a.media_url)}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-semibold">查看廣告庫 ↗</a>` : ''}
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function renderAds() {
+      const f = STATE.adFilter;
+      const list = (STATE.data.ads || []).filter(a => {
+        if (f === 'NEW') return a.status === 'NEW';
+        if (f === 'LONG') return a.active_days >= 14 && a.status !== 'STOPPED';
+        if (f === 'STOPPED') return a.status === 'STOPPED';
+        if (f === 'RISK') return (a.fraud_risk_score || 0) >= 70;
+        return true;
+      });
+      document.getElementById('adCountLabel').textContent = `共 ${list.length} 則`;
+      document.getElementById('adsGrid').innerHTML = list.length ? list.map(renderAdCardHtml).join('') : '<div class="col-span-2 surface p-10 text-center text-slate-400 text-sm">尚無符合條件的廣告資料</div>';
+    }
+
+    // ==================== 單一品牌 360° 全景詳情頁 ====================
+    function renderBrandDetail() {
+      if (!STATE.data || !STATE.detailBrandId) return;
+      const bid = STATE.detailBrandId;
+      const m = (STATE.data.all_matrix || []).find(x => x.brand_id === bid);
+      if (!m) return;
+
+      const bPosts = (STATE.data.all_posts || []).filter(p => (p.group_brand_id || p.brand_id) === bid);
+      const bAds = (STATE.data.all_ads || []).filter(a => (a.group_brand_id || a.brand_id) === bid);
+      const bMentionsRaw = [
+        ...(STATE.data.all_mentions || []).filter(x => (x.group_brand_id || x.brand_id) === bid),
+        ...(STATE.data.all_store_reviews || []).filter(x => (x.group_brand_id || x.brand_id) === bid),
+      ];
+      const bSeenM = new Set();
+      const bMentions = bMentionsRaw.filter(x => {
+        const k = x.unique_key || `${x.platform}_${x.mention_id}`;
+        if (bSeenM.has(k)) return false;
+        bSeenM.add(k);
+        return true;
+      }).sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+      const bRanks = (STATE.data.app_rankings || []).filter(r => (r.group_brand_id || r.brand_id) === bid);
+
+      document.getElementById('bdCntPosts').textContent = bPosts.length;
+      document.getElementById('bdCntAds').textContent = bAds.length;
+      document.getElementById('bdCntMentions').textContent = bMentions.length;
+
+      const iosDeltaHtml = fmtRankDeltaSpan(m.ios_delta, true);
+      const andDeltaHtml = fmtRankDeltaSpan(m.android_delta, true);
+
+      const subAppsHtml = (m.sub_apps && m.sub_apps.length > 1)
+        ? `<div class="pt-3 border-t border-slate-100 space-y-2">
+             <div class="text-xs font-bold text-slate-600">旗下追蹤子產品 APP 雙平台商店排名明細（共 ${m.sub_apps.length} 款）</div>
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+               ${m.sub_apps.map(sa => `
+                 <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-3 space-y-1.5 text-xs">
+                   <div class="font-bold text-slate-900">${esc(sa.product_name || sa.app_name)}</div>
+                   <div class="flex items-center justify-between">
+                     <span class="text-slate-500">iOS 財經榜</span>
+                     <span class="num font-semibold text-slate-800">${sa.ios_rank > 0 ? '#' + sa.ios_rank : '未入榜'} ${fmtRankDeltaSpan(sa.ios_delta, false)} <span class="text-amber-600">★${sa.ios_rating || '-'}</span></span>
+                   </div>
+                   <div class="flex items-center justify-between">
+                     <span class="text-slate-500">Google Play</span>
+                     <span class="num font-semibold text-slate-800">${sa.android_rank > 0 ? '#' + sa.android_rank : '未入榜'} ${fmtRankDeltaSpan(sa.android_delta, false)} <span class="text-amber-600">★${sa.android_rating || '-'}</span></span>
+                   </div>
+                 </div>
+               `).join('')}
+             </div>
+           </div>`
+        : '';
+
+      document.getElementById('bdHeaderCard').innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-2xl ${m.is_self ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20' : 'bg-slate-800 text-white'} flex items-center justify-center font-extrabold text-lg">${esc(m.brand_name.slice(0,1))}</div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-xl font-extrabold text-slate-900">${esc(m.brand_name)}</h2>
+                ${catBadge(m.tier, m.is_self)}
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5">追蹤產品：${esc((m.sub_product_names && m.sub_product_names.length) ? m.sub_product_names.join('、') : (m.app_name || '官網與社群'))} ｜ 統計區間：${esc(STATE.data.date_from)} ~ ${esc(STATE.data.date_to)}</p>
+            </div>
+          </div>
+          <div class="flex gap-2 text-xs">
+            ${!m.is_self ? `<button onclick="if(!STATE.compareIds.includes('${esc(bid)}'))STATE.compareIds.push('${esc(bid)}');switchTab('compare')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm">將此品牌加入自家 PK →</button>` : ''}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-6 gap-3">
+          <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200/70">
+            <div class="text-[11px] font-semibold text-slate-500">官方社群發文</div>
+            <div class="text-2xl font-extrabold text-slate-900 mt-1 num">${m.owned_post_count}</div>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200/70">
+            <div class="text-[11px] font-semibold text-slate-500">在投金融廣告</div>
+            <div class="text-2xl font-extrabold text-slate-900 mt-1 num">${m.active_ad_count} <span class="text-xs text-emerald-600">+${m.new_ad_count}</span></div>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200/70">
+            <div class="text-[11px] font-semibold text-slate-500">官方總互動數</div>
+            <div class="text-2xl font-extrabold text-emerald-700 mt-1 num">${fmtNum(m.total_engagement)}</div>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200/70">
+            <div class="text-[11px] font-semibold text-slate-500">網友討論口碑</div>
+            <div class="text-2xl font-extrabold text-violet-700 mt-1 num">${m.mention_count} <span class="text-xs font-semibold text-emerald-600">${m.positive_ratio}%正</span></div>
+          </div>
+          <div class="bg-blue-50/70 rounded-xl p-3.5 border border-blue-200/70">
+            <div class="text-[11px] font-bold text-blue-700">Apple App Store 財經榜</div>
+            <div class="text-2xl font-extrabold text-slate-900 mt-1 num">${m.ios_rank > 0 ? '#' + m.ios_rank : '未入榜'} <span class="text-xs font-semibold text-amber-600">★${m.ios_rating || '-'}</span></div>
+            <div class="text-[11px] mt-0.5">${iosDeltaHtml} · ${fmtNum(m.ios_rating_count)}評</div>
+          </div>
+          <div class="bg-emerald-50/70 rounded-xl p-3.5 border border-emerald-200/70">
+            <div class="text-[11px] font-bold text-emerald-700">Google Play 財經榜</div>
+            <div class="text-2xl font-extrabold text-slate-900 mt-1 num">${m.android_rank > 0 ? '#' + m.android_rank : '未入榜'} <span class="text-xs font-semibold text-amber-600">★${m.android_rating || '-'}</span></div>
+            <div class="text-[11px] mt-0.5">${andDeltaHtml} · ${fmtNum(m.android_rating_count)}評</div>
+          </div>
+        </div>
+        ${subAppsHtml}`;
+
+      // APP 排名歷史圖（Y 軸反轉：名次第 1 在最上方）
+      if (bdAppChartObj) bdAppChartObj.destroy();
+      bdAppChartObj = new Chart(document.getElementById('bdAppRankChart'), {
+        type: 'line',
+        data: {
+          labels: bRanks.map(r => r.snapshot_date.slice(5)),
+          datasets: [
+            { label: 'iOS App Store 財經榜名次', data: bRanks.map(r => r.ios_rank || null), borderColor: '#2563EB', backgroundColor: 'rgba(37,99,235,0.1)', borderWidth: 2.5, pointRadius: 4, tension: 0.3 },
+            { label: 'Android Google Play 財經榜名次', data: bRanks.map(r => r.android_rank || null), borderColor: '#10B981', backgroundColor: 'rgba(16,185,129,0.1)', borderWidth: 2.5, pointRadius: 4, tension: 0.3 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'top', align: 'end', labels: { color: '#475569', usePointStyle: true } } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: '#64748B' } },
+            y: { reverse: true, min: 1, grid: { color: '#EEF2F7' }, ticks: { color: '#64748B', stepSize: 2, callback: v => '#' + v } }
+          }
+        }
+      });
+
+      // 渲染三大區塊開關列與各自細部篩選內容
+      window._bdCache = { bPosts, bAds, bMentions };
+      renderBrandDetailSections();
+    }
+
+    function setBdSectionsAll() {
+      STATE.bdSections = { posts: true, ads: true, mentions: true };
+      renderBrandDetailSections();
+    }
+
+    function toggleBdSection(key) {
+      const s = STATE.bdSections;
+      const allOn = s.posts && s.ads && s.mentions;
+      if (allOn) {
+        // 從「全部」點單一類別時，直接切為只勾該類別（最符合減少篇幅直覺；之後再點其他類別即可複選加入）
+        STATE.bdSections = { posts: key === 'posts', ads: key === 'ads', mentions: key === 'mentions' };
+      } else {
+        STATE.bdSections[key] = !STATE.bdSections[key];
+      }
+      renderBrandDetailSections();
+    }
+
+    function toggleBdSubFilter(stateKey, val) {
+      if (val === 'ALL') {
+        STATE[stateKey] = [];
+      } else {
+        const arr = STATE[stateKey] || [];
+        if (arr.includes(val)) {
+          STATE[stateKey] = arr.filter(x => x !== val);
+        } else {
+          STATE[stateKey] = [...arr, val];
+        }
+      }
+      renderBrandDetailSections();
+    }
+
+    function buildBdPillBar(stateKey, options, countsMap) {
+      const selected = STATE[stateKey] || [];
+      const isAll = selected.length === 0;
+      const allBtn = `<button onclick="toggleBdSubFilter('${stateKey}','ALL')" class="px-2.5 py-1 rounded-lg font-semibold transition ${isAll ? 'bg-slate-900 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}">全部</button>`;
+      const optBtns = options.map(opt => {
+        const active = selected.includes(opt);
+        const cnt = countsMap[opt] || 0;
+        return `<button onclick="toggleBdSubFilter('${stateKey}','${esc(opt)}')" class="px-2.5 py-1 rounded-lg font-semibold transition flex items-center gap-1 ${active ? 'bg-blue-600 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:border-blue-300 hover:text-blue-700'}">${active ? '✓ ' : ''}${esc(opt)} <span class="${active ? 'text-blue-100' : 'text-slate-400'} num">(${cnt})</span></button>`;
+      }).join('');
+      return allBtn + optBtns;
+    }
+
+    function renderBrandDetailSections() {
+      const cache = window._bdCache;
+      if (!cache) return;
+      const { bPosts, bAds, bMentions } = cache;
+      const sec = STATE.bdSections;
+      const allOn = sec.posts && sec.ads && sec.mentions;
+      const noneOn = !sec.posts && !sec.ads && !sec.mentions;
+
+      // 1) 更新頂部三大類勾選按鈕樣式
+      const btnAll = document.getElementById('bdSecBtnAll');
+      btnAll.className = `px-3.5 py-1.5 rounded-xl font-semibold transition ${allOn ? 'bg-blue-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`;
+
+      const styleSecBtn = (id, active, activeCls) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.className = `px-3.5 py-1.5 rounded-xl border font-semibold transition flex items-center gap-1.5 ${active ? activeCls : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300 hover:text-slate-600'}`;
+        const chk = el.querySelector('.bd-chk');
+        if (chk) chk.textContent = active ? '☑' : '☐';
+      };
+      styleSecBtn('bdSecBtnPosts', sec.posts, 'bg-blue-50 border-blue-300 text-blue-700');
+      styleSecBtn('bdSecBtnAds', sec.ads, 'bg-cyan-50 border-cyan-300 text-cyan-700');
+      styleSecBtn('bdSecBtnMentions', sec.mentions, 'bg-violet-50 border-violet-300 text-violet-700');
+
+      document.getElementById('bdEmptyNotice').classList.toggle('hidden', !noneOn);
+      document.getElementById('bd-sec-posts').classList.toggle('hidden', !sec.posts);
+      document.getElementById('bd-sec-ads').classList.toggle('hidden', !sec.ads);
+      document.getElementById('bd-sec-mentions').classList.toggle('hidden', !sec.mentions);
+
+      // 2) 區塊一：官方社群貼文篩選與渲染
+      if (sec.posts) {
+        const postCounts = {};
+        bPosts.forEach(p => { postCounts[p.platform] = (postCounts[p.platform] || 0) + 1; });
+        document.getElementById('bdPostsFilterBar').innerHTML = buildBdPillBar('bdPostPlats', ['Facebook', 'Instagram', 'Threads', 'YouTube'], postCounts);
+        const fPosts = STATE.bdPostPlats.length ? bPosts.filter(p => STATE.bdPostPlats.includes(p.platform)) : bPosts;
+        document.getElementById('bdPostsGrid').innerHTML = fPosts.length ? fPosts.map(p => `
+          <div class="surface p-5 flex flex-col justify-between gap-3">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">${platBadge(p.platform)}<span class="text-xs text-slate-400 num">${esc(p.published_date)}</span></div>
+              <p class="text-[13.5px] text-slate-700 leading-relaxed">${esc(p.content_text)}</p>
+              ${p.ai_summary ? `<div class="text-xs bg-blue-50/70 border border-blue-100 text-blue-800 px-3 py-2 rounded-xl"><span class="font-bold">[${esc(p.campaign_tag)}]</span> ${esc(p.ai_summary)}</div>` : ''}
+            </div>
+            <div class="flex items-center justify-between pt-2.5 border-t border-slate-100 text-xs text-slate-500 num">
+              <div class="flex gap-3"><span>讚 <strong>${fmtNum(p.likes)}</strong></span><span>留 <strong>${fmtNum(p.comments)}</strong></span><span>轉 <strong>${fmtNum(p.shares)}</strong></span>${p.views > 0 ? `<span class="text-blue-600">觀看 <strong>${fmtNum(p.views)}</strong></span>` : ''}</div>
+              ${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-semibold">原貼文 ↗</a>` : ''}
+            </div>
+          </div>`).join('') : '<div class="col-span-2 surface p-8 text-center text-slate-400 text-sm">此篩選條件下尚無官方貼文</div>';
+      }
+
+      // 3) 區塊二：品牌投放廣告與素材牆篩選與渲染
+      if (sec.ads) {
+        const adCounts = {};
+        bAds.forEach(a => { adCounts[a.ad_network] = (adCounts[a.ad_network] || 0) + 1; });
+        document.getElementById('bdAdsFilterBar').innerHTML = buildBdPillBar('bdAdNets', ['Meta', 'Google'], adCounts);
+        const fAds = STATE.bdAdNets.length ? bAds.filter(a => STATE.bdAdNets.includes(a.ad_network)) : bAds;
+        document.getElementById('bdAdsGrid').innerHTML = fAds.length ? fAds.map(renderAdCardHtml).join('') : '<div class="col-span-2 surface p-8 text-center text-slate-400 text-sm">此篩選條件下尚無廣告紀錄</div>';
+      }
+
+      // 4) 區塊三：網友討論與口碑情緒明細篩選與渲染
+      if (sec.mentions) {
+        const mCounts = {};
+        bMentions.forEach(x => { mCounts[x.platform] = (mCounts[x.platform] || 0) + 1; });
+        const availPlats = ['App Store', 'Google Play', 'Threads', 'Facebook', 'YouTube', 'Instagram'].filter(pl => mCounts[pl] > 0 || pl === 'App Store' || pl === 'Google Play');
+        document.getElementById('bdMentionsFilterBar').innerHTML = buildBdPillBar('bdMentionPlats', availPlats, mCounts);
+        const sentSel = document.getElementById('bdMentionSentFilter');
+        if (sentSel) sentSel.value = STATE.bdMentionSent || 'ALL';
+        const fMentions = bMentions.filter(x =>
+          (!STATE.bdMentionPlats.length || STATE.bdMentionPlats.includes(x.platform)) &&
+          (STATE.bdMentionSent === 'ALL' || x.sentiment === STATE.bdMentionSent)
+        );
+        document.getElementById('bdMentionsList').innerHTML = fMentions.length ? fMentions.map(x => {
+          const sColor = x.sentiment === '正面' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : (x.sentiment === '負面' ? 'bg-rose-50 text-rose-700 border border-rose-200' : 'bg-slate-100 text-slate-600');
+          const prodTag = (x.product_name && x.product_name !== x.brand_name) ? `<span class="text-xs font-medium text-slate-500">· ${esc(x.product_name)}</span>` : '';
+          return `
+          <div class="surface p-4 space-y-2 ${x.sentiment === '負面' ? 'border-l-4 border-l-rose-400' : ''}">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center gap-2">${platBadge(x.platform)}${prodTag}${fmtStarBadge(x.rating)}<span class="pill ${sColor}">${esc(x.sentiment)}</span><span class="pill bg-slate-100 text-slate-600">${esc(x.topic_category)}</span></div>
+              <span class="text-xs text-slate-400 num">作者：${esc(x.author_name || '匿名')} · ${esc(x.published_date)}</span>
+            </div>
+            <p class="text-[13.5px] text-slate-700">${esc(x.content_snippet)}</p>
+            <div class="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100 num">
+              <div>讚 <strong>${fmtNum(x.likes)}</strong> · 留 <strong>${fmtNum(x.comments)}</strong> · 轉 <strong>${fmtNum(x.shares)}</strong> ${x.ai_reason ? `｜ AI：${esc(x.ai_reason)}` : ''}</div>
+              ${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-semibold">原貼文 ↗</a>` : ''}
+            </div>
+          </div>`;
+        }).join('') : '<div class="surface p-8 text-center text-slate-400 text-sm">此篩選條件下尚無網友討論紀錄</div>';
+      }
+    }
+
+    // ==================== 自家 vs. 競品自由比較頁 ====================
+    function toggleCompareCompetitor(bid) {
+      if (STATE.compareIds.includes(bid)) {
+        STATE.compareIds = STATE.compareIds.filter(x => x !== bid);
+      } else {
+        STATE.compareIds.push(bid);
+      }
+      renderCompare();
+    }
+
+    function selectAllCompetitors(flag) {
+      const comps = (STATE.data.all_matrix || []).filter(m => !m.is_self).map(m => m.brand_id);
+      STATE.compareIds = flag ? comps : [];
+      renderCompare();
+    }
+
+    function selectCompareByCategory(cat) {
+      const comps = (STATE.data.all_matrix || []).filter(m => !m.is_self && m.tier === cat).map(m => m.brand_id);
+      STATE.compareIds = comps.slice(0, 5);
+      renderCompare();
+      if (comps.length > 5) {
+        showToast(`已先勾選「${cat}」前 5 家品牌方便圖表閱讀，您可隨時點選晶片自由增減！`);
+      }
+    }
+
+    function renderCompare() {
+      if (!STATE.data) return;
+      const all = STATE.data.all_matrix || [];
+      const selfBrand = all.find(m => m.is_self) || all[0];
+      if (!selfBrand) return;
+      const competitors = all.filter(m => m.brand_id !== selfBrand.brand_id);
+
+      // 1) 渲染勾選晶片列
+      const bar = document.getElementById('compareSelectorBar');
+      bar.innerHTML = `
+        <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-bold shadow-sm">
+          ★ 自家基準：${esc(selfBrand.brand_name)}
+        </span>
+        <span class="text-xs text-slate-400 font-semibold mx-1">VS</span>
+      ` + competitors.map(c => {
+        const checked = STATE.compareIds.includes(c.brand_id);
+        return `
+        <button onclick="toggleCompareCompetitor('${esc(c.brand_id)}')" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition ${checked ? 'bg-indigo-50 border-indigo-400 text-indigo-800 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'}">
+          <span class="w-4 h-4 rounded flex items-center justify-center text-[10px] ${checked ? 'bg-indigo-600 text-white' : 'border border-slate-300'}">${checked ? '✓' : ''}</span>
+          ${esc(c.brand_name)}
+        </button>`;
+      }).join('');
+
+      const selected = [selfBrand, ...competitors.filter(c => STATE.compareIds.includes(c.brand_id))];
+      const palette = ['#2563EB', '#10B981', '#F59E0B', '#EC4899', '#8B5CF6', '#06B6D4'];
+
+      // 2) 五維雷達圖（各維度歸一化為 0~100）
+      const maxP = Math.max(1, ...selected.map(x => x.owned_post_count));
+      const maxA = Math.max(1, ...selected.map(x => x.active_ad_count));
+      const maxE = Math.max(1, ...selected.map(x => x.total_engagement));
+      const appScore = (x) => {
+        const iS = x.ios_rank > 0 ? Math.max(10, 105 - x.ios_rank * 4) : 10;
+        const aS = x.android_rank > 0 ? Math.max(10, 105 - x.android_rank * 4) : 10;
+        return Math.round((iS + aS) / 2);
+      };
+
+      if (compareRadarObj) compareRadarObj.destroy();
+      compareRadarObj = new Chart(document.getElementById('compareRadarChart'), {
+        type: 'radar',
+        data: {
+          labels: ['官方發文力', '廣告投放力', '互動熱度', '正面口碑', 'APP 雙平台排名'],
+          datasets: selected.map((b, i) => ({
+            label: b.is_self ? `★ ${b.brand_name}` : b.brand_name,
+            data: [
+              Math.round(b.owned_post_count * 100 / maxP),
+              Math.round(b.active_ad_count * 100 / maxA),
+              Math.round(b.total_engagement * 100 / maxE),
+              Math.round(b.positive_ratio),
+              appScore(b)
+            ],
+            borderColor: palette[i % palette.length],
+            backgroundColor: palette[i % palette.length] + '22',
+            borderWidth: b.is_self ? 3 : 2,
+            pointRadius: 3
+          }))
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { r: { beginAtZero: true, max: 100, ticks: { display: false }, grid: { color: '#E2E8F0' }, pointLabels: { color: '#334155', font: { size: 12, weight: '600' } } } },
+          plugins: { legend: { position: 'bottom', labels: { color: '#475569', usePointStyle: true } } }
+        }
+      });
+
+      // 3) 核心指標分組長條圖
+      if (compareBarObj) compareBarObj.destroy();
+      compareBarObj = new Chart(document.getElementById('compareBarChart'), {
+        type: 'bar',
+        data: {
+          labels: ['官方發文數', '在投廣告數', '網友討論篇數'],
+          datasets: selected.map((b, i) => ({
+            label: b.is_self ? `★ ${b.brand_name}` : b.brand_name,
+            data: [b.owned_post_count, b.active_ad_count, b.mention_count],
+            backgroundColor: palette[i % palette.length],
+            borderRadius: 6
+          }))
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { color: '#475569', usePointStyle: true } } },
+          scales: { x: { grid: { display: false }, ticks: { color: '#475569' } }, y: { beginAtZero: true, grid: { color: '#EEF2F7' }, ticks: { color: '#64748B', stepSize: 1 } } }
+        }
+      });
+
+      // 4) 完整橫向 PK 表
+      const metricsDef = [
+        { label: '官方社群發文數', fmt: b => b.has_official_social ? `${b.owned_post_count} 篇` : '<span class="text-slate-400 font-normal">未經營社群</span>', val: b => b.has_official_social ? b.owned_post_count : -1, higherBetter: true },
+        { label: '在投金融廣告數（含新上）', fmt: b => `${b.active_ad_count} 則 (+${b.new_ad_count})`, val: b => b.active_ad_count, higherBetter: true },
+        { label: '官方總互動數（讚+留+轉）', fmt: b => b.has_official_social ? fmtNum(b.total_engagement) : '<span class="text-slate-400 font-normal">未經營社群</span>', val: b => b.has_official_social ? b.total_engagement : -1, higherBetter: true },
+        { label: '公開影音總觀看數', fmt: b => fmtNum(b.total_views), val: b => b.total_views, higherBetter: true },
+        { label: '網友討論篇數', fmt: b => `${b.mention_count} 篇`, val: b => b.mention_count, higherBetter: true },
+        { label: '正面口碑比例', fmt: b => `${b.positive_ratio}%`, val: b => b.positive_ratio, higherBetter: true },
+        { label: 'iOS App Store 台灣財經榜', fmt: b => b.ios_rank > 0 ? `#${b.ios_rank} (★${b.ios_rating})` : '未入榜', val: b => b.ios_rank > 0 ? b.ios_rank : 999, higherBetter: false },
+        { label: 'Google Play 台灣財經榜', fmt: b => b.android_rank > 0 ? `#${b.android_rank} (★${b.android_rating})` : '未入榜', val: b => b.android_rank > 0 ? b.android_rank : 999, higherBetter: false },
+      ];
+
+      let tblHtml = `<thead class="bg-slate-50 text-slate-600 border-b border-slate-200"><tr><th class="px-5 py-3.5 w-52">PK 指標項目</th>`;
+      selected.forEach(b => {
+        tblHtml += `<th class="px-4 py-3.5 ${b.is_self ? 'bg-blue-50/80 text-blue-800 font-bold' : 'font-semibold'}">
+          <button onclick="openBrandDetail('${esc(b.brand_id)}')" class="hover:underline text-left">${b.is_self ? '★ ' : ''}${esc(b.brand_name)} ↗</button>
+        </th>`;
+      });
+      tblHtml += `</tr></thead><tbody class="divide-y divide-slate-100">`;
+
+      metricsDef.forEach(md => {
+        const vals = selected.map(md.val);
+        const bestVal = md.higherBetter ? Math.max(...vals) : Math.min(...vals);
+        tblHtml += `<tr class="hover:bg-slate-50/70"><td class="px-5 py-3.5 font-semibold text-slate-700">${md.label}</td>`;
+        selected.forEach(b => {
+          const v = md.val(b);
+          const isBest = selected.length > 1 && v === bestVal && (md.higherBetter ? v > 0 : v < 999);
+          tblHtml += `<td class="px-4 py-3.5 num ${b.is_self ? 'bg-blue-50/35 font-bold text-slate-900' : 'text-slate-700'}">
+            ${md.fmt(b)} ${isBest ? '<span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 font-bold">領先</span>' : ''}
+          </td>`;
+        });
+        tblHtml += `</tr>`;
+      });
+      tblHtml += `</tbody>`;
+      document.getElementById('compareTable').innerHTML = tblHtml;
+
+      // 5) 近期主打行銷與廣告訴求並排對照
+      document.getElementById('compareStrategyGrid').innerHTML = selected.map(b => {
+        const bps = (STATE.data.all_posts || []).filter(p => (p.group_brand_id || p.brand_id) === b.brand_id).slice(0, 3);
+        const bas = (STATE.data.all_ads || []).filter(a => (a.group_brand_id || a.brand_id) === b.brand_id && a.status !== 'STOPPED').slice(0, 2);
+        return `
+        <div class="surface p-5 space-y-3 ${b.is_self ? 'border-blue-300 ring-1 ring-blue-100' : ''}">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+            <span class="font-bold text-sm text-slate-900">${b.is_self ? '★ ' : ''}${esc(b.brand_name)}</span>
+            <button onclick="openBrandDetail('${esc(b.brand_id)}')" class="text-xs text-blue-600 hover:underline font-semibold">完整詳情 →</button>
+          </div>
+          <div class="space-y-1.5">
+            <div class="text-[11px] font-bold text-slate-400 uppercase">主打廣告訴求</div>
+            ${bas.length ? bas.map(a => `<div class="text-xs bg-slate-50 border border-slate-200/70 rounded-lg p-2.5 text-slate-700"><span class="font-semibold text-blue-700">[${esc(a.ad_network)} · ${a.active_days}天]</span> ${esc(a.ai_offer_summary || a.creative_text.slice(0, 50))}</div>`).join('') : '<div class="text-xs text-slate-400">無在投廣告</div>'}
+          </div>
+          <div class="space-y-1.5">
+            <div class="text-[11px] font-bold text-slate-400 uppercase">近期社群主力貼文</div>
+            ${bps.length ? bps.map(p => `<div class="text-xs text-slate-600 truncate">• <span class="font-semibold text-slate-800">[${esc(p.campaign_tag)}]</span> ${esc(p.ai_summary || p.content_text)}</div>`).join('') : '<div class="text-xs text-slate-400">無近期官方貼文</div>'}
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function renderMentions() {
+      const sf = document.getElementById('mentionSentFilter').value;
+      const pf = document.getElementById('mentionPlatFilter').value;
+      const q = document.getElementById('mentionSearch').value.trim().toLowerCase();
+      const incStore = document.getElementById('mentionIncludeAllStore')?.checked ?? true;
+      let pool = [...(STATE.data.mentions || [])];
+      const forceStore = (pf === 'App Store' || pf === 'Google Play');
+      if (incStore || forceStore) {
+        const seen = new Set(pool.map(m => m.unique_key || `${m.platform}_${m.mention_id}`));
+        (STATE.data.store_reviews || []).forEach(sr => {
+          const k = sr.unique_key || `${sr.platform}_${sr.mention_id}`;
+          if (!seen.has(k)) { seen.add(k); pool.push(sr); }
+        });
+        pool.sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+      } else {
+        // 取消勾選時徹底隱藏所有 App Store / Google Play 評論，只保留社群網友討論
+        pool = pool.filter(m => m.platform !== 'App Store' && m.platform !== 'Google Play');
+      }
+      const list = pool.filter(m => (sf === 'ALL' || m.sentiment === sf) && (pf === 'ALL' || m.platform === pf) && (!q || ((m.content_snippet || '') + (m.brand_name || '') + (m.product_name || '') + (m.topic_category || '')).toLowerCase().includes(q)));
+      document.getElementById('mentionCountLabel').textContent = `共 ${list.length} 則`;
+      document.getElementById('mentionsList').innerHTML = list.length ? list.map(m => {
+        const sColor = m.sentiment === '正面'
+          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+          : (m.sentiment === '負面' ? 'bg-rose-50 text-rose-700 border border-rose-200' : 'bg-slate-100 text-slate-600');
+        const prodTag = (m.product_name && m.product_name !== m.brand_name)
+          ? `<span class="text-xs font-medium text-slate-500">· ${esc(m.product_name)}</span>` : '';
+        return `
+        <div class="surface surface-hover p-5 space-y-2.5 ${m.sentiment === '負面' ? 'border-l-4 border-l-rose-400' : ''}">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+              ${platBadge(m.platform)}
+              <span class="font-bold text-sm text-slate-900">${esc(m.brand_name)}</span>
+              ${prodTag}
+              ${fmtStarBadge(m.rating)}
+              <span class="pill ${sColor}">${esc(m.sentiment)}</span>
+              <span class="pill bg-slate-100 text-slate-600">${esc(m.topic_category)}</span>
+            </div>
+            <span class="text-xs text-slate-400 num">作者：${esc(m.author_name || '匿名')} · ${esc(m.published_date)}</span>
+          </div>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed">${esc(m.content_snippet)}</p>
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 pt-2.5 border-t border-slate-100 num">
+            <div class="flex flex-wrap gap-3.5 font-medium">
+              <span>讚 <strong class="text-slate-800">${fmtNum(m.likes)}</strong></span>
+              <span>留言 <strong class="text-slate-800">${fmtNum(m.comments)}</strong></span>
+              <span>分享 <strong class="text-slate-800">${fmtNum(m.shares)}</strong></span>
+              ${m.views > 0 ? `<span class="text-blue-600">觀看 <strong>${fmtNum(m.views)}</strong></span>` : ''}
+              ${m.ai_reason ? `<span class="text-slate-600 font-normal">｜ AI 判讀：${esc(m.ai_reason)}</span>` : ''}
+            </div>
+            ${m.url ? `<a href="${esc(m.url)}" target="_blank" class="text-blue-600 hover:underline font-semibold">原貼文 ↗</a>` : ''}
+          </div>
+        </div>`;
+      }).join('') : '<div class="surface p-10 text-center text-slate-400 text-sm">尚無符合條件的網友討論</div>';
+    }
+
+    function renderBrandsTable() {
+      const body = document.getElementById('brandsTableBody');
+      const brands = STATE.data.brands || [];
+      body.innerHTML = brands.map(b => `
+        <tr class="${b.is_self ? 'bg-blue-50/50' : 'hover:bg-slate-50'}">
+          <td class="px-4 py-3 font-mono text-slate-600">${esc(b.brand_id)}</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">
+            ${esc(b.brand_name)}
+            ${b.product_name ? `<span class="text-xs font-normal text-slate-500 ml-1">(${esc(b.product_name)})</span>` : ''}
+            ${b.parent_brand_id ? `<span class="pill bg-slate-100 text-slate-500 text-[10px] ml-1">子產品</span>` : ''}
+            ${b.is_self ? '<span class="pill bg-blue-600 text-white text-[10px] ml-1.5">★ 自家</span>' : ''}
+          </td>
+          <td class="px-3 py-3">${catBadge(b.tier, b.is_self)}</td>
+          <td class="px-3 py-3 text-slate-600">${esc((b.aliases || []).join(', '))}</td>
+          <td class="px-3 py-3 text-slate-500">
+            YT:${b.yt_channel_id ? '<span class="text-emerald-600 font-bold">✓</span>' : '-'} ·
+            FB:${b.fb_page_ref ? '<span class="text-emerald-600 font-bold">✓</span>' : '-'} ·
+            IG:${b.ig_handle ? '<span class="text-emerald-600 font-bold">✓</span>' : '-'} ·
+            TH:${b.threads_handle ? '<span class="text-emerald-600 font-bold">✓</span>' : '-'} ·
+            網域:${esc(b.official_domain || '-')}
+          </td>
+          <td class="px-4 py-3 text-right space-x-2">
+            ${!b.is_self ? `<button onclick="setSelfBrand('${esc(b.brand_id)}')" class="text-blue-600 hover:underline font-semibold">設為自家</button>` : ''}
+            <button onclick="deleteBrand('${esc(b.brand_id)}')" class="text-rose-600 hover:underline font-medium">刪除</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function saveSettings() {
+      const payload = {
+        SL_PERSONAL_SHEET_ID: document.getElementById('cfgSheetId').value,
+        SL_PERSONAL_SHEETS_WEBHOOK_URL: document.getElementById('cfgWebhook').value,
+        SL_PERSONAL_APIFY_TOKEN: document.getElementById('cfgApifyToken').value,
+        SL_PERSONAL_YOUTUBE_API_KEY: document.getElementById('cfgYtKey').value,
+        SL_PERSONAL_GEMINI_API_KEY: document.getElementById('cfgGeminiKey').value,
+        SL_MONTHLY_APIFY_BUDGET_CAP: document.getElementById('cfgBudgetCap').value,
+        SL_APIFY_ACTOR_IG: document.getElementById('cfgActorIg').value,
+        SL_APIFY_ACTOR_FB_POSTS: document.getElementById('cfgActorFbPosts').value,
+        SL_APIFY_ACTOR_FB_SEARCH: document.getElementById('cfgActorFbSearch').value,
+        SL_APIFY_ACTOR_THREADS_PROFILE: document.getElementById('cfgActorThProfile').value,
+        SL_APIFY_ACTOR_THREADS_SEARCH: document.getElementById('cfgActorThSearch').value,
+        SL_PERSONAL_GEMINI_MODEL: document.getElementById('cfgGeminiModel').value,
+      };
+      const res = await fetch('/api/settings', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) }).then(r => r.json());
+      await loadSettings();
+      await loadDashboard();
+      showToast(res.message || '設定已儲存', res.ok);
+    }
+
+    async function verifyApify() {
+      const box = document.getElementById('apifyVerifyBox');
+      box.className = 'text-xs p-3.5 rounded-xl border bg-slate-50 border-slate-200 text-slate-600';
+      box.textContent = '正在連線 Apify /v2/users/me 驗證個人帳號身分...';
+      box.classList.remove('hidden');
+      const res = await fetch('/api/apify/verify').then(r => r.json());
+      if (res.ok) {
+        box.className = 'text-xs p-3.5 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-800';
+        box.innerHTML = `✅ 連線成功！目前綁定帳號：<strong>${esc(res.email || res.username)}</strong>（方案：${esc(res.plan_name)}，方案月額度：$${res.max_monthly_usd}，本機追蹤本月已用：$${res.local_tracked_spend}）`;
+      } else {
+        box.className = 'text-xs p-3.5 rounded-xl border bg-rose-50 border-rose-200 text-rose-800';
+        box.textContent = `❌ ${res.message}`;
+      }
+    }
+
+    async function importBrandsFromSheets() {
+      showToast('正在從 Google Sheets 讀取「01_品牌清單與設定」...');
+      const res = await fetch('/api/sheets/import-brands', { method: 'POST' }).then(r => r.json());
+      showToast(res.message, res.ok);
+      if (res.ok) await loadDashboard();
+    }
+
+    async function pushToSheets() {
+      const df = document.getElementById('dateFrom').value;
+      const dt = document.getElementById('dateTo').value;
+      showToast('正在將本區間資料去重寫回 Google Sheets...');
+      const res = await fetch('/api/sheets/push', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ date_from: df, date_to: dt }) }).then(r => r.json());
+      showToast(res.message, res.ok);
+    }
+
+    async function copyBridgeScript() {
+      const res = await fetch('/api/bridge-script').then(r => r.json());
+      if (res.script) {
+        await navigator.clipboard.writeText(res.script);
+        showToast('已複製 google_apps_script_bridge.gs 程式碼！請至 Google 試算表 → 擴充功能 → Apps Script 貼上並部署為網頁應用程式。');
+      }
+    }
+
+    function downloadExcel() {
+      const df = document.getElementById('dateFrom').value;
+      const dt = document.getElementById('dateTo').value;
+      window.location.href = `/api/export/excel?date_from=${df}&date_to=${dt}`;
+    }
+
+    function openCollectModal() {
+      const df = document.getElementById('dateFrom').value;
+      const dt = document.getElementById('dateTo').value;
+      document.getElementById('modalDateRange').textContent = `${df} ~ ${dt}`;
+      document.getElementById('collectProgress').classList.add('hidden');
+      document.getElementById('collectModal').classList.remove('hidden');
+    }
+    function closeCollectModal() { document.getElementById('collectModal').classList.add('hidden'); }
+
+    async function runCollection() {
+      const btn = document.getElementById('btnRunCollect');
+      const prog = document.getElementById('collectProgress');
+      const apifyPlats = [];
+      if (document.getElementById('chkIg').checked) apifyPlats.push('Instagram');
+      if (document.getElementById('chkFb').checked) apifyPlats.push('Facebook');
+      if (document.getElementById('chkTh').checked) apifyPlats.push('Threads');
+
+      btn.disabled = true;
+      btn.textContent = '抓取執行中...';
+      prog.textContent = '正在依序執行勾選的爬蟲與 AI 分析模組，請稍候（Playwright 與 Apify 約需 20~90 秒）...';
+      prog.classList.remove('hidden');
+
+      try {
+        const res = await fetch('/api/collect/run', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            date_from: document.getElementById('dateFrom').value,
+            date_to: document.getElementById('dateTo').value,
+            run_youtube: document.getElementById('chkYt').checked,
+            run_ads: document.getElementById('chkAds').checked,
+            run_app_ranks: document.getElementById('chkAppRanks').checked,
+            apify_platforms: apifyPlats,
+            include_mentions: document.getElementById('chkMentions').checked,
+            run_gemini: document.getElementById('chkGemini').checked,
+            fb_limit_per_page: Number(document.getElementById('inpFbLimit').value || 5),
+          })
+        }).then(r => r.json());
+
+        if (!res.ok) {
+          prog.textContent = res.message;
+          showToast(res.message, false);
+        } else {
+          const lines = Object.entries(res.results || {}).map(([k, v]) => `• ${k}: ${v.message || (v.ok ? '完成' : '略過')}`);
+          prog.innerHTML = lines.map(esc).join('<br/>');
+          showToast('抓取與分析完成！已更新本地歷史資料庫。');
+          await loadDashboard();
+        }
+      } catch (e) {
+        prog.textContent = '執行發生錯誤：' + e;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '立即開始抓取';
+      }
+    }
+
+    async function runAiAnalyze(digestOnly = false) {
+      const btnFull = document.getElementById('btnRunAiAnalyze');
+      const btnQuick = document.getElementById('btnQuickDigest');
+      const box = document.getElementById('aiDigestBox');
+      const prevHtml = box ? box.innerHTML : '';
+      const df = document.getElementById('dateFrom').value;
+      const dt = document.getElementById('dateTo').value;
+
+      if (btnFull) btnFull.disabled = true;
+      if (btnQuick) btnQuick.disabled = true;
+
+      let sec = 0;
+      const modeText = digestOnly ? '⚡ 正在快速生成本期戰報摘要' : '✨ 正在並行分析未標註資料並撰寫戰報';
+      const renderLoading = () => {
+        if (box) {
+          box.innerHTML = `
+            <div class="bg-white/90 border border-blue-200 rounded-xl p-4 flex items-center gap-3 shadow-sm">
+              <svg class="w-5 h-5 text-blue-600 animate-spin shrink-0" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
+                <path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+              </svg>
+              <div class="text-xs">
+                <div class="font-bold text-blue-800">${modeText}（區間：${esc(df)} ~ ${esc(dt)}）</div>
+                <div class="text-slate-500 mt-0.5 num">Gemini 3 Flash 運算中，已耗時 <strong>${sec}</strong> 秒，請稍候...</div>
+              </div>
+            </div>`;
+        }
+        if (btnQuick) btnQuick.innerHTML = digestOnly ? `<span>運算中 (${sec}s)...</span>` : `<span>⚡ 快速更新本期戰報</span>`;
+        if (btnFull) btnFull.innerHTML = !digestOnly ? `<span>並行分析中 (${sec}s)...</span>` : `<span>分析未標註新資料並更新戰報</span>`;
+      };
+      renderLoading();
+      const timer = setInterval(() => { sec += 1; renderLoading(); }, 1000);
+
+      try {
+        const res = await fetch('/api/ai/analyze', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ date_from: df, date_to: dt, digest_only: digestOnly })
+        }).then(r => r.json());
+        clearInterval(timer);
+        showToast(`${res.message || '戰報更新完成'}（耗時 ${sec} 秒）`, res.ok);
+        if (res.ok) {
+          await loadDashboard();
+        } else if (box) {
+          box.innerHTML = prevHtml;
+        }
+      } catch (e) {
+        clearInterval(timer);
+        showToast('呼叫 Gemini 發生錯誤：' + e, false);
+        if (box) box.innerHTML = prevHtml;
+      } finally {
+        clearInterval(timer);
+        if (btnFull) { btnFull.disabled = false; btnFull.innerHTML = '<span>分析未標註新資料並更新戰報</span>'; }
+        if (btnQuick) { btnQuick.disabled = false; btnQuick.innerHTML = '<span>⚡ 快速更新本期戰報</span>'; }
+      }
+    }
+
+    function openAddBrandModal() { document.getElementById('brandModal').classList.remove('hidden'); }
+    async function saveBrand() {
+      const payload = {
+        brand_id: document.getElementById('bId').value,
+        brand_name: document.getElementById('bName').value,
+        is_self: document.getElementById('bIsSelf').checked,
+        tier: document.getElementById('bIsSelf').checked ? '自家' : (document.getElementById('bTier').value || '看盤軟體'),
+        aliases: document.getElementById('bAliases').value,
+        exclude_keywords: document.getElementById('bExcludes').value,
+        yt_channel_id: document.getElementById('bYt').value,
+        fb_page_ref: document.getElementById('bFb').value,
+        ig_handle: document.getElementById('bIg').value,
+        threads_handle: document.getElementById('bTh').value,
+        ios_app_id: document.getElementById('bIosApp').value,
+        android_package_id: document.getElementById('bAndPkg').value,
+        official_domain: document.getElementById('bDom').value,
+      };
+      const res = await fetch('/api/brands', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) }).then(r => r.json());
+      showToast(res.message || '已儲存', res.ok);
+      if (res.ok) {
+        document.getElementById('brandModal').classList.add('hidden');
+        await loadDashboard();
+      }
+    }
+
+    async function setSelfBrand(bid) {
+      const res = await fetch('/api/brands/set-self', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ brand_id: bid }) }).then(r => r.json());
+      showToast(res.message || '已更新自家品牌', res.ok);
+      await loadDashboard();
+    }
+
+    async function deleteBrand(bid) {
+      await fetch('/api/brands/delete', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ brand_id: bid }) });
+      showToast('已刪除品牌 ' + bid);
+      await loadDashboard();
+    }
+
+    async function clearDemo() {
+      const res = await fetch('/api/demo/clear', { method: 'POST' }).then(r => r.json());
+      showToast(res.message || '已清空示範數據');
+      await loadDashboard();
+    }
+
+    (async () => {
+      const parts = (location.hash || '#overview').replace('#', '').split('/');
+      const initTab = TAB_TITLES[parts[0]] ? parts[0] : 'overview';
+      const initBid = parts[1] ? decodeURIComponent(parts[1]) : null;
+      NAV_HISTORY = [{ tab: initTab, brandId: initBid }];
+      NAV_INDEX = 0;
+      history.replaceState({ tab: initTab, brandId: initBid, navIndex: 0 }, '', initBid ? `#${initTab}/${encodeURIComponent(initBid)}` : `#${initTab}`);
+      await loadSettings();
+      setQuickRange(7);
+      applyTabView(initTab, initBid);
+    })();
+  </script>
+</body>
+</html>
