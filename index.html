@@ -229,75 +229,97 @@
 
   <!-- 右側主畫布 -->
   <div class="flex-1 min-w-0 flex flex-col">
-    <!-- 頂部極簡操控列（桌機單排 / 手機精緻折行） -->
-    <header class="sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b border-slate-200/80">
-      <div class="max-w-[1360px] mx-auto px-3.5 sm:px-6 py-2.5 sm:py-3.5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2.5 sm:gap-3">
-        <div class="flex items-center justify-between lg:justify-start gap-2 min-w-0">
-          <div class="flex items-center gap-2 min-w-0">
-            <!-- 手機版漢堡選單鈕 -->
-            <button onclick="openMobileMenu()" aria-label="開啟選單" class="lg:hidden w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center shrink-0">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
+    <!-- 頂部極簡雙層操控列（桌機零擠壓 / 手機零跑版） -->
+    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200/80">
+      <!-- 第一層：導覽標題 ＋ 系統操作動作 -->
+      <div class="max-w-[1360px] mx-auto px-3.5 sm:px-6 py-2.5 sm:py-3 flex flex-wrap items-center justify-between gap-2.5">
+        <div class="flex items-center gap-2 min-w-0">
+          <!-- 手機版漢堡選單鈕 -->
+          <button onclick="openMobileMenu()" aria-label="開啟選單" class="lg:hidden w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
+          </button>
+          <!-- 往返頁控制按鈕（站內歷史往返，不跳出儀表板） -->
+          <div class="flex items-center bg-slate-100/90 border border-slate-200/80 rounded-xl p-0.5 shrink-0">
+            <button id="btnNavBack" onclick="navBack()" disabled title="回到上一頁" class="px-2 py-1 rounded-lg text-slate-600 hover:bg-white hover:shadow-sm disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:shadow-none transition flex items-center gap-1 text-xs font-medium">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
+              <span class="hidden sm:inline">返回</span>
             </button>
-            <!-- 往返頁控制按鈕（站內歷史往返，不跳出儀表板） -->
-            <div class="flex items-center bg-slate-100/90 border border-slate-200/80 rounded-xl p-0.5 shrink-0">
-              <button id="btnNavBack" onclick="navBack()" disabled title="回到上一頁" class="px-2 py-1 rounded-lg text-slate-600 hover:bg-white hover:shadow-sm disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:shadow-none transition flex items-center gap-1 text-xs font-medium">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
-                <span class="hidden sm:inline">返回</span>
-              </button>
-              <button id="btnNavForward" onclick="navForward()" disabled title="前往下一頁" class="px-1.5 py-1 rounded-lg text-slate-600 hover:bg-white hover:shadow-sm disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:shadow-none transition">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
-              </button>
-            </div>
-            <div class="flex items-center gap-1.5 min-w-0">
-              <button id="breadcrumbHome" onclick="switchTab('overview')" class="hidden sm:inline text-xs text-slate-400 hover:text-blue-600 font-medium transition shrink-0">戰情總覽 /</button>
-              <h1 id="pageTitle" class="text-base sm:text-lg font-bold text-slate-900 tracking-tight truncate">戰情總覽矩陣</h1>
-            </div>
+            <button id="btnNavForward" onclick="navForward()" disabled title="前往下一頁" class="px-1.5 py-1 rounded-lg text-slate-600 hover:bg-white hover:shadow-sm disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:shadow-none transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+            </button>
           </div>
-          <span class="hidden lg:inline-flex items-center gap-1.5 text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full font-medium shrink-0">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 本機免密碼直連
+          <div class="flex items-center gap-1.5 min-w-0">
+            <button id="breadcrumbHome" onclick="switchTab('overview')" class="hidden text-xs text-slate-400 hover:text-blue-600 font-medium transition shrink-0">戰情總覽 /</button>
+            <h1 id="pageTitle" class="text-base sm:text-lg font-bold text-slate-900 tracking-tight whitespace-nowrap truncate">戰情總覽矩陣</h1>
+          </div>
+          <span class="hidden xl:inline-flex items-center gap-1.5 text-[11px] text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full font-medium shrink-0">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 本機免密碼直連 · 每日 09:00 自動更新
           </span>
         </div>
 
-        <div class="flex flex-wrap items-center gap-2 text-xs">
-          <!-- 日期區間膠囊（手機版自動收斂寬度防溢出） -->
-          <div class="flex flex-wrap items-center gap-1 sm:gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2.5 sm:px-3 py-1.5 shadow-sm w-full sm:w-auto justify-between sm:justify-start">
-            <div class="flex items-center gap-1">
-              <svg class="w-3.5 h-3.5 text-slate-400 hidden sm:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>
-              <input type="date" id="dateFrom" onchange="loadDashboard()" class="bg-transparent text-slate-700 font-medium outline-none num text-[11px] sm:text-xs w-[104px] sm:w-auto" />
-              <span class="text-slate-300">→</span>
-              <input type="date" id="dateTo" onchange="loadDashboard()" class="bg-transparent text-slate-700 font-medium outline-none num text-[11px] sm:text-xs w-[104px] sm:w-auto" />
-            </div>
-            <div class="hidden sm:block h-3.5 w-px bg-slate-200 mx-0.5"></div>
-            <div class="flex items-center gap-0.5">
-              <button onclick="setQuickRange(7)" class="px-1.5 sm:px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">7天</button>
-              <button onclick="setQuickRange(30)" class="px-1.5 sm:px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">30天</button>
-              <button onclick="setQuickRange(180)" class="px-1.5 sm:px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">半年</button>
-              <button onclick="setQuickRange(3650)" class="px-1.5 sm:px-2 py-0.5 rounded-md hover:bg-white hover:shadow-sm text-slate-600 font-medium transition">全部</button>
-            </div>
-          </div>
-
-          <select id="brandFilter" onchange="loadDashboard()" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-700 font-medium shadow-sm outline-none focus:border-blue-500 flex-1 sm:flex-none min-w-[140px]">
-            <option value="ALL">全部追蹤品牌</option>
-          </select>
-
-          <button onclick="downloadExcel()" class="px-3 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-medium shadow-sm transition">
+        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs shrink-0">
+          <button onclick="downloadExcel()" class="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-medium shadow-sm transition whitespace-nowrap">
             匯出 Excel
           </button>
 
-          <button onclick="pushToSheets()" class="px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-semibold transition">
+          <button onclick="pushToSheets()" class="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-semibold transition whitespace-nowrap">
             寫回 Sheets
           </button>
 
-          <button onclick="openCollectModal()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm shadow-blue-600/25 flex items-center gap-1.5 transition">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>
+          <button id="btnDailyUpdateNow" onclick="triggerDailyUpdateNow()" title="立即執行與每日 09:00 排程相同之全流程免費更新（含試算表與線上展示版同步）" class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm shadow-indigo-600/20 flex items-center gap-1.5 transition whitespace-nowrap">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" /></svg>
+            <span>立即更新</span>
+          </button>
+
+          <button onclick="openCollectModal()" class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm shadow-blue-600/25 flex items-center gap-1.5 transition whitespace-nowrap">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>
             <span>執行外部抓取</span>
           </button>
+        </div>
+      </div>
+
+      <!-- 第二層：日期快速篩選（含「今天」單日鎖定） ＋ 品牌切換工具列 -->
+      <div class="border-t border-slate-100 bg-slate-50/75">
+        <div class="max-w-[1360px] mx-auto px-3.5 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-between sm:justify-start">
+            <!-- 快速區間按鈕組（今天 / 7天 / 30天 / 半年 / 全部） -->
+            <div class="flex items-center gap-0.5 bg-white border border-slate-200 rounded-xl p-0.5 shadow-xs">
+              <button onclick="setQuickRange(1)" data-qrange="1" class="qrange-btn px-2.5 py-1 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold transition">今天</button>
+              <button onclick="setQuickRange(7)" data-qrange="7" class="qrange-btn px-2.5 py-1 rounded-lg bg-slate-900 text-white font-semibold transition">7天</button>
+              <button onclick="setQuickRange(30)" data-qrange="30" class="qrange-btn px-2.5 py-1 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold transition">30天</button>
+              <button onclick="setQuickRange(180)" data-qrange="180" class="qrange-btn px-2.5 py-1 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold transition">半年</button>
+              <button onclick="setQuickRange(3650)" data-qrange="3650" class="qrange-btn px-2.5 py-1 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold transition">全部</button>
+            </div>
+            <!-- 精準起訖日期輸入 -->
+            <div class="flex items-center gap-1 bg-white border border-slate-200 rounded-xl px-2.5 py-1 shadow-xs">
+              <svg class="w-3.5 h-3.5 text-slate-400 hidden sm:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>
+              <input type="date" id="dateFrom" onchange="clearQuickRangeHighlight();loadDashboard()" class="bg-transparent text-slate-700 font-medium outline-none num text-[11px] sm:text-xs w-[104px] sm:w-auto" />
+              <span class="text-slate-300">→</span>
+              <input type="date" id="dateTo" onchange="clearQuickRangeHighlight();loadDashboard()" class="bg-transparent text-slate-700 font-medium outline-none num text-[11px] sm:text-xs w-[104px] sm:w-auto" />
+            </div>
+          </div>
+
+          <select id="brandFilter" onchange="loadDashboard()" class="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-slate-700 font-medium shadow-xs outline-none focus:border-blue-500 w-full sm:w-auto sm:min-w-[160px]">
+            <option value="ALL">全部追蹤品牌</option>
+          </select>
         </div>
       </div>
     </header>
 
     <!-- 訊息與示範提示列 -->
     <div class="max-w-[1360px] w-full mx-auto px-3.5 sm:px-6 pt-3 sm:pt-4 space-y-2.5">
+      <div id="dailyUpdateBanner" class="hidden px-4 py-3 rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-900 text-xs flex flex-wrap items-center justify-between gap-2 shadow-sm">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <svg class="w-4 h-4 text-indigo-600 animate-spin shrink-0" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
+            <path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          </svg>
+          <div class="min-w-0">
+            <div class="font-bold text-indigo-900">正在背景執行「立即更新」（APP雙平台 → YouTube → 雙廣告庫 → Gemini 戰報 → Google Sheets → 線上展示版）</div>
+            <div id="dailyUpdateLogText" class="text-[11px] text-indigo-700/90 mt-0.5 truncate num">正在初始化更新任務，請稍候...</div>
+          </div>
+        </div>
+      </div>
       <div id="toast" class="hidden px-4 py-3 rounded-xl text-sm font-medium border shadow-sm"></div>
       <div id="demoBanner" class="hidden px-4 py-3 rounded-2xl bg-amber-50/90 border border-amber-200 text-amber-900 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
@@ -1145,6 +1167,7 @@
     const hideSelectors = [
       '.nav-item[data-tab="settings"]',
       '#sidebarSheetLink',
+      '#btnDailyUpdateNow',
       'button[onclick="openCollectModal()"]',
       'button[onclick="pushToSheets()"]',
       'button[onclick="downloadExcel()"]',
@@ -1194,6 +1217,7 @@
       start.setDate(end.getDate() - (days - 1));
       document.getElementById('dateFrom').value = start.toISOString().slice(0, 10);
       document.getElementById('dateTo').value = snapEnd;
+      if (typeof updateQuickRangeHighlight === 'function') updateQuickRangeHighlight(days);
       if (typeof loadDashboard === 'function') loadDashboard();
     };
     setTimeout(() => {
@@ -1313,13 +1337,84 @@
       setTimeout(() => el.classList.add('hidden'), 6000);
     }
 
+    function fmtLocalDate(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function updateQuickRangeHighlight(days) {
+      document.querySelectorAll('.qrange-btn').forEach(btn => {
+        const active = Number(btn.dataset.qrange) === Number(days);
+        btn.className = `qrange-btn px-2.5 py-1 rounded-lg font-semibold transition ${active ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-100'}`;
+      });
+    }
+
+    function clearQuickRangeHighlight() {
+      document.querySelectorAll('.qrange-btn').forEach(btn => {
+        btn.className = 'qrange-btn px-2.5 py-1 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold transition';
+      });
+    }
+
     function setQuickRange(days) {
       const end = new Date();
       const start = new Date();
       start.setDate(end.getDate() - (days - 1));
-      document.getElementById('dateFrom').value = start.toISOString().slice(0, 10);
-      document.getElementById('dateTo').value = end.toISOString().slice(0, 10);
+      document.getElementById('dateFrom').value = fmtLocalDate(start);
+      document.getElementById('dateTo').value = fmtLocalDate(end);
+      updateQuickRangeHighlight(days);
       loadDashboard();
+    }
+
+    let _dailyPollTimer = null;
+    async function triggerDailyUpdateNow() {
+      const btn = document.getElementById('btnDailyUpdateNow');
+      const banner = document.getElementById('dailyUpdateBanner');
+      const logEl = document.getElementById('dailyUpdateLogText');
+      if (btn) { btn.disabled = true; btn.classList.add('opacity-60'); }
+      try {
+        const res = await fetch('/api/daily-update/run', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ with_apify: false })
+        }).then(r => r.json());
+        if (!res.ok) {
+          showToast(res.message || '無法啟動立即更新', false);
+          if (btn) { btn.disabled = false; btn.classList.remove('opacity-60'); }
+          return;
+        }
+        if (banner) banner.classList.remove('hidden');
+        if (logEl) logEl.textContent = res.message || '已啟動背景更新...';
+        showToast('已啟動「立即更新」，您可繼續瀏覽畫面，完成後將自動刷新數據！');
+        startDailyUpdatePolling();
+      } catch (e) {
+        showToast('啟動立即更新失敗：' + e, false);
+        if (btn) { btn.disabled = false; btn.classList.remove('opacity-60'); }
+      }
+    }
+
+    function startDailyUpdatePolling() {
+      if (_dailyPollTimer) clearInterval(_dailyPollTimer);
+      _dailyPollTimer = setInterval(async () => {
+        try {
+          const st = await fetch('/api/daily-update/status').then(r => r.json());
+          const banner = document.getElementById('dailyUpdateBanner');
+          const logEl = document.getElementById('dailyUpdateLogText');
+          const btn = document.getElementById('btnDailyUpdateNow');
+          if (st.latest_log && logEl) logEl.textContent = st.latest_log;
+          if (!st.running) {
+            clearInterval(_dailyPollTimer);
+            _dailyPollTimer = null;
+            if (banner) banner.classList.add('hidden');
+            if (btn) { btn.disabled = false; btn.classList.remove('opacity-60'); }
+            if (st.finished_at) {
+              showToast(st.message || '今日立即更新已完成！', st.ok !== false);
+              await loadDashboard();
+            }
+          }
+        } catch (e) {}
+      }, 3000);
     }
 
     function updateNavControls(activeTab) {
