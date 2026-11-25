@@ -930,6 +930,7 @@
 <!-- FinPulse 唯讀作品展示引擎（純靜態本地計算，絕無任何 API 金鑰） -->
 <script src="./showcase_data.js"></script>
 <script>
+window.BRAND_LOGO_BASE = './brand_logos';
 (function() {
   const SNAP = window.FINPULSE_SNAPSHOT || {};
   const PASSCODE = SNAP.passcode || '000000';
@@ -1329,6 +1330,29 @@
     function fmtNum(n) { return Number(n || 0).toLocaleString('zh-TW'); }
     function esc(s) { return String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
+    function brandLogoHtml(brandId, brandName, size = 'md', isSelf = false, fallbackIdx = 0) {
+      const base = window.BRAND_LOGO_BASE || '/static/brand_logos';
+      const bid = String(brandId || '').trim();
+      const initial = esc((brandName || 'B').slice(0, 1));
+      const avColor = isSelf ? 'bg-blue-600 text-white shadow-sm' : AVATAR_COLORS[fallbackIdx % AVATAR_COLORS.length];
+      const sizeMap = {
+        xs: { box: 'w-4 h-4 rounded', txt: 'text-[9px]' },
+        sm: { box: 'w-5 h-5 rounded-md', txt: 'text-[10px]' },
+        md: { box: 'w-8 h-8 rounded-lg', txt: 'text-xs' },
+        lg: { box: 'w-12 h-12 rounded-2xl', txt: 'text-lg' },
+      };
+      const sz = sizeMap[size] || sizeMap.md;
+      const ring = isSelf ? 'ring-2 ring-blue-500/40' : 'border border-slate-200/80';
+      if (!bid) {
+        return `<span class="inline-flex ${sz.box} ${avColor} items-center justify-center font-bold ${sz.txt} shrink-0">${initial}</span>`;
+      }
+      const src = `${base}/${encodeURIComponent(bid)}.png`;
+      return `<span class="relative inline-flex ${sz.box} ${ring} bg-white overflow-hidden items-center justify-center shrink-0 shadow-xs">
+        <img src="${src}" alt="${esc(brandName)}" loading="lazy" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+        <span style="display:none" class="w-full h-full ${avColor} items-center justify-center font-bold ${sz.txt}">${initial}</span>
+      </span>`;
+    }
+
     function showToast(msg, ok = true) {
       const el = document.getElementById('toast');
       el.textContent = msg;
@@ -1605,7 +1629,7 @@
       const isSelfFocus = !!kf.is_self;
       document.getElementById('kpiModeBadge').textContent = isSelfFocus ? `★ ${kf.mode_label || '自家品牌戰情'}` : (kf.mode_label || '單一品牌檢視');
       document.getElementById('kpiModeBadge').className = `pill shadow-sm ${isSelfFocus ? 'bg-blue-600 text-white' : 'bg-slate-800 text-white'}`;
-      document.getElementById('kpiFocusName').textContent = fName;
+      document.getElementById('kpiFocusName').innerHTML = `<span class="inline-flex items-center gap-1.5">${brandLogoHtml(kf.brand_id, fName, 'sm', isSelfFocus, 0)}<span>${esc(fName)}</span></span>`;
       document.getElementById('kpiFocusHint').textContent = `下方 4 張指標卡僅統計「${fName}」單一品牌數據，並與其餘 ${kf.competitor_count || 0} 家同業均值自動對照`;
 
       document.getElementById('kpiPosts').textContent = fmtNum(kf.owned_post_count || 0);
@@ -1798,7 +1822,7 @@
         <tr onclick="openBrandDetail('${esc(m.brand_id)}')" class="cursor-pointer group ${m.is_self ? 'bg-blue-50/55 hover:bg-blue-100/60' : 'hover:bg-slate-50'} transition">
           <td class="px-5 py-4">
             <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-lg ${m.is_self ? 'bg-blue-600 text-white shadow-sm' : avColor} flex items-center justify-center font-bold text-xs shrink-0">${esc(initial)}</div>
+              ${brandLogoHtml(m.brand_id, m.brand_name, 'md', m.is_self, idx)}
               <div>
                 <div class="flex items-center gap-2">
                   <span class="font-semibold text-slate-900 group-hover:text-blue-700 transition">${esc(m.brand_name)}</span>
@@ -1918,7 +1942,7 @@
         <div class="surface surface-hover p-5 flex flex-col justify-between gap-3">
           <div class="space-y-2.5">
             <div class="flex items-center justify-between gap-2">
-              <div class="flex items-center gap-2">${platBadge(p.platform)}<span class="font-bold text-sm text-slate-900">${esc(p.brand_name)}</span></div>
+              <div class="flex items-center gap-2">${brandLogoHtml(p.brand_id || p.group_brand_id, p.brand_name, 'sm', p.is_self_brand, 0)}${platBadge(p.platform)}<span class="font-bold text-sm text-slate-900">${esc(p.brand_name)}</span></div>
               <span class="text-xs text-slate-400 num">${esc(p.published_date)}</span>
             </div>
             <p class="text-[13.5px] text-slate-700 leading-relaxed">${esc(p.content_text)}</p>
@@ -1972,6 +1996,7 @@
           <div class="space-y-3">
             <div class="flex flex-wrap items-center justify-between gap-2">
               <div class="flex flex-wrap items-center gap-2">
+                ${brandLogoHtml(a.brand_id || a.group_brand_id, a.brand_name, 'sm', a.is_self_brand, 0)}
                 <span class="pill ${a.ad_network==='Meta'?'bg-indigo-50 text-indigo-700 border border-indigo-200':'bg-amber-50 text-amber-700 border border-amber-200'}">${esc(a.ad_network)} Ads</span>
                 <span class="font-bold text-sm text-slate-900">${esc(a.brand_name)}</span>
                 <span class="pill ${stBadge} num">${esc(a.status)}・連投 ${a.active_days} 天</span>
@@ -2041,7 +2066,7 @@
              <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5">
                ${m.sub_apps.map(sa => `
                  <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-3 space-y-1.5 text-xs">
-                   <div class="font-bold text-slate-900">${esc(sa.product_name || sa.app_name)}</div>
+                   <div class="font-bold text-slate-900 flex items-center gap-2">${brandLogoHtml(sa.brand_id, sa.product_name || sa.app_name, 'sm', false, 0)}<span>${esc(sa.product_name || sa.app_name)}</span></div>
                    <div class="flex items-center justify-between">
                      <span class="text-slate-500">iOS 財經榜</span>
                      <span class="num font-semibold text-slate-800">${sa.ios_rank > 0 ? '#' + sa.ios_rank : '未入榜'} ${fmtRankDeltaSpan(sa.ios_delta, false)} <span class="text-amber-600">★${sa.ios_rating || '-'}</span></span>
@@ -2059,7 +2084,7 @@
       document.getElementById('bdHeaderCard').innerHTML = `
         <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
           <div class="flex items-center gap-3.5">
-            <div class="w-12 h-12 rounded-2xl ${m.is_self ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20' : 'bg-slate-800 text-white'} flex items-center justify-center font-extrabold text-lg">${esc(m.brand_name.slice(0,1))}</div>
+            ${brandLogoHtml(m.brand_id, m.brand_name, 'lg', m.is_self, 0)}
             <div>
               <div class="flex items-center gap-2">
                 <h2 class="text-xl font-extrabold text-slate-900">${esc(m.brand_name)}</h2>
@@ -2296,16 +2321,18 @@
       // 1) 渲染勾選晶片列
       const bar = document.getElementById('compareSelectorBar');
       bar.innerHTML = `
-        <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-bold shadow-sm">
-          ★ 自家基準：${esc(selfBrand.brand_name)}
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-bold shadow-sm">
+          ${brandLogoHtml(selfBrand.brand_id, selfBrand.brand_name, 'xs', true, 0)}
+          <span>★ 自家基準：${esc(selfBrand.brand_name)}</span>
         </span>
         <span class="text-xs text-slate-400 font-semibold mx-1">VS</span>
-      ` + competitors.map(c => {
+      ` + competitors.map((c, idx) => {
         const checked = STATE.compareIds.includes(c.brand_id);
         return `
-        <button onclick="toggleCompareCompetitor('${esc(c.brand_id)}')" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition ${checked ? 'bg-indigo-50 border-indigo-400 text-indigo-800 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'}">
-          <span class="w-4 h-4 rounded flex items-center justify-center text-[10px] ${checked ? 'bg-indigo-600 text-white' : 'border border-slate-300'}">${checked ? '✓' : ''}</span>
-          ${esc(c.brand_name)}
+        <button onclick="toggleCompareCompetitor('${esc(c.brand_id)}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition ${checked ? 'bg-indigo-50 border-indigo-400 text-indigo-800 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'}">
+          <span class="w-3.5 h-3.5 rounded flex items-center justify-center text-[9px] ${checked ? 'bg-indigo-600 text-white' : 'border border-slate-300'}">${checked ? '✓' : ''}</span>
+          ${brandLogoHtml(c.brand_id, c.brand_name, 'xs', false, idx)}
+          <span>${esc(c.brand_name)}</span>
         </button>`;
       }).join('');
 
@@ -2384,9 +2411,9 @@
       ];
 
       let tblHtml = `<thead class="bg-slate-50 text-slate-600 border-b border-slate-200"><tr><th class="px-5 py-3.5 w-52">PK 指標項目</th>`;
-      selected.forEach(b => {
+      selected.forEach((b, idx) => {
         tblHtml += `<th class="px-4 py-3.5 ${b.is_self ? 'bg-blue-50/80 text-blue-800 font-bold' : 'font-semibold'}">
-          <button onclick="openBrandDetail('${esc(b.brand_id)}')" class="hover:underline text-left">${b.is_self ? '★ ' : ''}${esc(b.brand_name)} ↗</button>
+          <button onclick="openBrandDetail('${esc(b.brand_id)}')" class="hover:underline text-left inline-flex items-center gap-1.5">${brandLogoHtml(b.brand_id, b.brand_name, 'xs', b.is_self, idx)}<span>${b.is_self ? '★ ' : ''}${esc(b.brand_name)} ↗</span></button>
         </th>`;
       });
       tblHtml += `</tr></thead><tbody class="divide-y divide-slate-100">`;
@@ -2414,7 +2441,7 @@
         return `
         <div class="surface p-5 space-y-3 ${b.is_self ? 'border-blue-300 ring-1 ring-blue-100' : ''}">
           <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
-            <span class="font-bold text-sm text-slate-900">${b.is_self ? '★ ' : ''}${esc(b.brand_name)}</span>
+            <span class="font-bold text-sm text-slate-900 inline-flex items-center gap-2">${brandLogoHtml(b.brand_id, b.brand_name, 'sm', b.is_self, 0)}<span>${b.is_self ? '★ ' : ''}${esc(b.brand_name)}</span></span>
             <button onclick="openBrandDetail('${esc(b.brand_id)}')" class="text-xs text-blue-600 hover:underline font-semibold">完整詳情 →</button>
           </div>
           <div class="space-y-1.5">
@@ -2459,6 +2486,7 @@
         <div class="surface surface-hover p-5 space-y-2.5 ${m.sentiment === '負面' ? 'border-l-4 border-l-rose-400' : ''}">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <div class="flex flex-wrap items-center gap-2">
+              ${brandLogoHtml(m.brand_id || m.group_brand_id, m.brand_name, 'sm', m.is_self_brand, 0)}
               ${platBadge(m.platform)}
               <span class="font-bold text-sm text-slate-900">${esc(m.brand_name)}</span>
               ${prodTag}
