@@ -257,7 +257,7 @@
           </span>
         </div>
 
-        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs shrink-0">
+        <div class="w-full sm:w-auto max-w-full flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs sm:shrink-0">
           <button onclick="downloadExcel()" class="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-medium shadow-sm transition whitespace-nowrap">
             匯出 Excel
           </button>
@@ -266,12 +266,12 @@
             寫回 Sheets
           </button>
 
-          <button id="btnDailyUpdateNow" onclick="triggerDailyUpdateNow()" title="立即執行與每日 09:00 排程相同之全流程免費更新（含試算表與線上展示版同步）" class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm shadow-indigo-600/20 flex items-center gap-1.5 transition whitespace-nowrap">
+          <button id="btnDailyUpdateNow" onclick="triggerDailyUpdateNow()" title="立即執行與每日 09:00 排程相同之全流程免費更新（含試算表與線上展示版同步）" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm shadow-indigo-600/20 flex items-center gap-1.5 transition whitespace-nowrap">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" /></svg>
             <span>立即更新</span>
           </button>
 
-          <button onclick="openCollectModal()" class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm shadow-blue-600/25 flex items-center gap-1.5 transition whitespace-nowrap">
+          <button onclick="openCollectModal()" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm shadow-blue-600/25 flex items-center gap-1.5 transition whitespace-nowrap">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>
             <span>執行外部抓取</span>
           </button>
@@ -299,9 +299,34 @@
             </div>
           </div>
 
-          <select id="brandFilter" onchange="loadDashboard()" class="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-slate-700 font-medium shadow-xs outline-none focus:border-blue-500 w-full sm:w-auto sm:min-w-[160px]">
-            <option value="ALL">全部追蹤品牌</option>
-          </select>
+          <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+            <!-- 資料最後更新時間膠囊（點擊可檢視 5 大資料模組各自更新時間，兼顧桌機與手機） -->
+            <div id="lastUpdatedWrap" class="relative">
+              <button id="lastUpdatedBadge" type="button" onclick="toggleLastUpdatedPopover(event)" title="點擊檢視各資料來源最新更新時間（台灣時間 UTC+8）" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white hover:bg-blue-50/70 border border-slate-200 hover:border-blue-200 text-slate-600 shadow-xs transition max-w-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+                <span class="text-[11px] sm:text-xs font-medium text-slate-500 whitespace-nowrap">最後更新</span>
+                <strong id="lastUpdatedText" class="text-[11px] sm:text-xs font-semibold text-slate-800 num whitespace-nowrap">--</strong>
+              </button>
+              <div id="lastUpdatedPopover" class="hidden absolute left-0 sm:left-auto sm:right-0 top-full mt-2 w-[272px] sm:w-[296px] max-w-[calc(100vw-28px)] bg-white border border-slate-200/90 rounded-2xl shadow-xl p-3.5 z-50 text-xs space-y-2.5">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                  <div class="font-bold text-slate-800 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span>各資料模組更新時間</span>
+                  </div>
+                  <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded-md">UTC+8</span>
+                </div>
+                <div id="lastUpdatedPopoverBody" class="space-y-1.5 text-[11.5px]"></div>
+                <div class="pt-1.5 border-t border-slate-100 text-[10.5px] text-slate-400 leading-relaxed">
+                  每日 09:00 自動更新免費來源（APP／YouTube／雙廣告庫／AI 戰報），每週一加跑 Apify 社群補抓。
+                </div>
+              </div>
+            </div>
+
+            <select id="brandFilter" onchange="loadDashboard()" class="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-slate-700 font-medium shadow-xs outline-none focus:border-blue-500 flex-1 sm:flex-none sm:min-w-[160px]">
+              <option value="ALL">全部追蹤品牌</option>
+            </select>
+          </div>
         </div>
       </div>
     </header>
@@ -1121,6 +1146,8 @@ window.BRAND_LOGO_BASE = './brand_logos';
       date_from: dateFrom,
       date_to: dateTo,
       has_demo_data: false,
+      last_updated_at: SNAP.last_updated_at || SNAP.generated_at || '',
+      last_updated_detail: SNAP.last_updated_detail || {},
       display_brands: parentBrands,
       brands: brands,
       kpi_focus: kpiFocus,
@@ -1580,12 +1607,57 @@ window.BRAND_LOGO_BASE = './brand_logos';
       }
     }
 
+    function toggleLastUpdatedPopover(ev) {
+      if (ev) ev.stopPropagation();
+      const pop = document.getElementById('lastUpdatedPopover');
+      if (pop) pop.classList.toggle('hidden');
+    }
+
+    document.addEventListener('click', (e) => {
+      const wrap = document.getElementById('lastUpdatedWrap');
+      const pop = document.getElementById('lastUpdatedPopover');
+      if (pop && !pop.classList.contains('hidden') && wrap && !wrap.contains(e.target)) {
+        pop.classList.add('hidden');
+      }
+    });
+
+    function renderLastUpdated(data) {
+      const ts = (data && data.last_updated_at) || '';
+      const det = (data && data.last_updated_detail) || {};
+      const txtEl = document.getElementById('lastUpdatedText');
+      const badgeEl = document.getElementById('lastUpdatedBadge');
+      const bodyEl = document.getElementById('lastUpdatedPopoverBody');
+      if (txtEl) txtEl.textContent = ts || '尚未更新';
+
+      const rows = [
+        ['APP 雙平台排名與評分', det.app_rankings],
+        ['Meta / Google 廣告庫', det.ads],
+        ['官方社群貼文', det.posts],
+        ['網友口碑與商店評論', det.mentions],
+        ['Gemini AI 每日戰報', det.ai_digest],
+      ];
+      if (badgeEl) {
+        const lines = ['資料最後更新時間（台灣時間 UTC+8）'];
+        rows.forEach(([label, val]) => lines.push(`• ${label}：${val || '尚無資料'}`));
+        badgeEl.title = lines.join('\n');
+      }
+      if (bodyEl) {
+        bodyEl.innerHTML = rows.map(([label, val]) => `
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-slate-600">${esc(label)}</span>
+            <span class="num font-semibold ${val ? 'text-slate-800' : 'text-slate-400'}">${esc(val || '尚無資料')}</span>
+          </div>
+        `).join('');
+      }
+    }
+
     async function loadDashboard() {
       const df = document.getElementById('dateFrom').value;
       const dt = document.getElementById('dateTo').value;
       const bid = document.getElementById('brandFilter').value;
       const data = await fetch(`/api/dashboard?date_from=${df}&date_to=${dt}&brand_id=${bid}`).then(r => r.json());
       STATE.data = data;
+      renderLastUpdated(data);
 
       const sel = document.getElementById('brandFilter');
       const curVal = sel.value;
